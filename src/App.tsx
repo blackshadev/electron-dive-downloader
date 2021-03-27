@@ -1,3 +1,4 @@
+import { version } from 'libdivecomputerjs';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import icon from '../assets/icon.svg';
@@ -10,6 +11,7 @@ const Hello = () => {
         <img width="200px" alt="icon" src={icon} />
       </div>
       <h1>electron-react-boilerplate</h1>
+      <p>libdivecomputer v{version()}</p>
       <div className="Hello">
         <a
           href="https://electron-react-boilerplate.js.org/"
