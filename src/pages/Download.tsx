@@ -105,7 +105,7 @@ export default function Download() {
       </Row>
 
       <Row full>
-        <Button>Download</Button>
+        <Button primary={transports.length > 0}>Download</Button>
       </Row>
     </form>
   );

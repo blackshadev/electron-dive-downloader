@@ -4,12 +4,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Download from './pages/Download';
 import store from './redux/store';
-import { colors } from './styling';
+import style from './styling';
 
 const GlobalStyle = createGlobalStyle`
 body {
-  background-color: ${colors.background};
-  color: ${colors.font};
+  background-color: ${style.colors.background};
+  color: ${style.colors.font};
 }
 `;
 
