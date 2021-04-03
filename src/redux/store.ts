@@ -1,7 +1,8 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import descriptorSlice from './descriptorSlice';
+import descriptorSlice, { serializableSelector } from './descriptorSlice';
+import { makeSerializable, loadPersistedState } from './persist';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     descriptors: descriptorSlice,
   },
@@ -11,7 +12,24 @@ export default configureStore({
         'descriptors/setDescriptors',
         'descriptors/selectDescriptor',
       ],
-      ignoredPaths: ['descriptors'],
+      ignoredPaths: ['descriptors.all'],
     },
   }),
 });
+
+store.subscribe(() => {
+  const serializableState = makeSerializable(
+    store.getState(),
+    serializableSelector
+  );
+  localStorage.setItem('reduxState', JSON.stringify(serializableState));
+});
+
+function getPersistedState(): any {
+  const stateString = localStorage.getItem('reduxState');
+  return stateString ? JSON.parse(stateString) : {};
+}
+
+store.dispatch(loadPersistedState(getPersistedState()));
+
+export default store;

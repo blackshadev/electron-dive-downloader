@@ -19,17 +19,16 @@ const Label = styled.label`
 const InputContainer = styled.div``;
 
 const Row = styled.div<{ full?: boolean }>`
-  display: grid;
-  grid-template-columns: ${(props) =>
-    props.full ? `1fr` : `repeat(6, minmax(0, 1fr))`};
+  display: flex;
+  flex-wrap: wrap;
   height: 3rem;
   grid-gap: 2rem;
 
   ${Label} {
-    grid-column: 1 / span 2;
+    min-width: 6rem;
   }
   ${InputContainer} {
-    grid-column: 3 / span 4;
+    flex-grow: 1;
   }
 `;
 
