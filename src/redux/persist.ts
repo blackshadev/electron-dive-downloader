@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import { createAction, Selector } from '@reduxjs/toolkit';
 
 export const loadPersistedState = createAction<any>('load');

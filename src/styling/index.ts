@@ -1,3 +1,4 @@
 import colors from './colors';
+import form from './form';
 
-export default { colors };
+export default { colors, form };

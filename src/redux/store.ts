@@ -25,6 +25,7 @@ store.subscribe(() => {
   localStorage.setItem('reduxState', JSON.stringify(serializableState));
 });
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 function getPersistedState(): any {
   const stateString = localStorage.getItem('reduxState');
   return stateString ? JSON.parse(stateString) : {};
