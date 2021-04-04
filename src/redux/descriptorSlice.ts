@@ -39,9 +39,9 @@ const descriptorSlice = createSlice({
   extraReducers: {
     [loadPersistedState.type]: (
       state,
-      action: PayloadAction<{ descriptors: { selected: string } }>
+      action: PayloadAction<{ descriptors?: { selected: string } }>
     ) => {
-      state.selected = action.payload.descriptors.selected;
+      state.selected = action.payload.descriptors?.selected;
     },
   },
 });
