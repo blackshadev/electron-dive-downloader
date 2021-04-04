@@ -1,10 +1,10 @@
 import { Descriptor } from 'libdivecomputerjs';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
+import LinkButton from '../components/LinkButton';
 import Row from '../components/Row';
 import Select from '../components/Select';
 import {
@@ -54,7 +54,7 @@ export default function Download() {
         </Select>
       </InputRow>
 
-      <InputRow label="source" name="source">
+      <InputRow label="Source" name="source">
         <Select name="source">
           <option>(none)</option>
         </Select>
@@ -77,7 +77,9 @@ export default function Download() {
 
       <Row>
         <Button primary>Download</Button>
-        <Link to="/login">Login</Link>
+        <LinkButton to="/login" flat>
+          Login
+        </LinkButton>
       </Row>
     </form>
   );

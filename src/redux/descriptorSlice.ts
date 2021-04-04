@@ -61,7 +61,9 @@ export const supportedTransports = createSelector(
   (state) => state?.transports ?? []
 );
 
-export const serializableSelector = (state: { descriptors: State }) => ({
+export const serializableDescriptorSelector = (state: {
+  descriptors: State;
+}) => ({
   descriptors: { selected: state.descriptors.selected },
 });
 

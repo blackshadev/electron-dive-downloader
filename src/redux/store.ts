@@ -1,10 +1,14 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import descriptorSlice, { serializableSelector } from './descriptorSlice';
+import authSlice, { serializableAuthSelector } from './authSlice';
+import descriptorSlice, {
+  serializableDescriptorSelector,
+} from './descriptorSlice';
 import { makeSerializable, loadPersistedState } from './persist';
 
 const store = configureStore({
   reducer: {
     descriptors: descriptorSlice,
+    auth: authSlice,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {
@@ -20,7 +24,8 @@ const store = configureStore({
 store.subscribe(() => {
   const serializableState = makeSerializable(
     store.getState(),
-    serializableSelector
+    serializableDescriptorSelector,
+    serializableAuthSelector
   );
   localStorage.setItem('reduxState', JSON.stringify(serializableState));
 });

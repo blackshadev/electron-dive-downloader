@@ -7,7 +7,7 @@ const Input = styled.input`
   border: 0;
   border-bottom: 1px solid ${styling.colors.darkGrey};
   background: ${styling.colors.inputBackground};
-  border-radius: 0.2rem 0.2rem 0 0;
+  border-radius: ${styling.misc.borderRadius} ${styling.misc.borderRadius} 0 0;
   margin-bottom: 1px;
   padding: 0 ${styling.spacing.sm};
 

@@ -15,6 +15,10 @@
   },
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
     "libdivecomputerjs": "blackshadev/libdivecomputerjs.git"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
   }
 }
