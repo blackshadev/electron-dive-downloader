@@ -1,29 +1,34 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../components/Button';
+import ErrorRow from '../components/ErrorRow';
 import Input from '../components/Input';
 import InputRow from '../components/InputRow';
-import Row from '../components/Row';
 import { useInput } from '../hooks/input';
 import { authenticate, errorSelector } from '../redux/authSlice';
 
 export default function Login() {
   const dispatch = useDispatch();
-  const { bind: bindEmail } = useInput('');
-  const { bind: bindPassword } = useInput('');
+  const { value: valueEmail, onChange: changeEmail } = useInput('');
+  const { value: valuePassword, onChange: changePassword } = useInput('');
   const authenticateError = useSelector(errorSelector);
 
   return (
     <form>
       <InputRow label="E-mail" name="email">
-        <Input name="email" {...bindEmail} />
+        <Input name="email" value={valueEmail} onChange={changeEmail} />
       </InputRow>
 
       <InputRow label="Password" name="password">
-        <Input name="password" type="password" {...bindPassword} />
+        <Input
+          name="password"
+          type="password"
+          value={valuePassword}
+          onChange={changePassword}
+        />
       </InputRow>
 
-      {authenticateError && <Row>{authenticateError}</Row>}
+      {authenticateError && <ErrorRow>{authenticateError}</ErrorRow>}
 
       <Button
         primary
@@ -32,8 +37,8 @@ export default function Login() {
 
           dispatch(
             authenticate({
-              email: bindEmail.value,
-              password: bindPassword.value,
+              email: valueEmail,
+              password: valuePassword,
             })
           );
         }}

@@ -6,6 +6,8 @@ const colors = {
   lightGrey: '#eeeeee',
   grey: '#bbbbbb',
   darkGrey: '#555555',
+  darkRed: '#721c24',
+  lightRed: '#f8d7da',
 };
 
 export default Object.assign(colors, {

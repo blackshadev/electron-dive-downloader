@@ -4,11 +4,13 @@ import descriptorSlice, {
   serializableDescriptorSelector,
 } from './descriptorSlice';
 import { makeSerializable, loadPersistedState } from './persist';
+import userSlice from './userSlice';
 
 const store = configureStore({
   reducer: {
     descriptors: descriptorSlice,
     auth: authSlice,
+    user: userSlice,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

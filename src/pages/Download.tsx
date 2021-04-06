@@ -1,20 +1,18 @@
-import { Descriptor } from 'libdivecomputerjs';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../components/Button';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
-import LinkButton from '../components/LinkButton';
 import Row from '../components/Row';
 import Select from '../components/Select';
 import {
   allDescriptorsSelector,
   descriptorName,
-  setDescriptors,
   selectDescriptor,
   supportedTransports,
   descriptorId,
   selectedDescriptor,
+  fetchDescriptors,
 } from '../redux/descriptorSlice';
 
 export default function Download() {
@@ -24,9 +22,10 @@ export default function Download() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    const all = Array.from(Descriptor.iterate());
-    dispatch(setDescriptors(all));
-  }, [dispatch]);
+    if (allDescriptors.length === 0) {
+      dispatch(fetchDescriptors());
+    }
+  }, [dispatch, allDescriptors]);
 
   return (
     <form>
@@ -77,9 +76,6 @@ export default function Download() {
 
       <Row>
         <Button primary>Download</Button>
-        <LinkButton to="/login" flat>
-          Login
-        </LinkButton>
       </Row>
     </form>
   );

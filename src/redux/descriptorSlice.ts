@@ -1,4 +1,9 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { Descriptor } from 'libdivecomputerjs';
 import { loadPersistedState } from './persist';
 
@@ -16,6 +21,13 @@ const initialState = {
   selected: undefined as string | undefined,
 };
 type State = typeof initialState;
+
+export const fetchDescriptors = createAsyncThunk<Descriptor[]>(
+  'fetchDescriptors',
+  () => {
+    return Array.from(Descriptor.iterate());
+  }
+);
 
 const descriptorSlice = createSlice({
   name: 'descriptors',
@@ -36,13 +48,20 @@ const descriptorSlice = createSlice({
       }
     },
   },
-  extraReducers: {
-    [loadPersistedState.type]: (
-      state,
-      action: PayloadAction<{ descriptors?: { selected: string } }>
-    ) => {
-      state.selected = action.payload.descriptors?.selected;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(
+        loadPersistedState.type,
+        (
+          state,
+          action: PayloadAction<{ descriptors?: { selected: string } }>
+        ) => {
+          state.selected = action.payload.descriptors?.selected;
+        }
+      )
+      .addCase(fetchDescriptors.fulfilled, (state, payload) => {
+        state.all = payload.payload;
+      });
   },
 });
 

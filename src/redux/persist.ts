@@ -11,7 +11,7 @@ export function makeSerializable<T>(
   let serializableState = {};
 
   for (const selector of selectors) {
-    serializableState = { ...selector(state) };
+    serializableState = { ...serializableState, ...selector(state) };
   }
 
   return serializableState;
