@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import Button from '../components/Button';
 import ErrorRow from '../components/ErrorRow';
 import Input from '../components/Input';
 import InputRow from '../components/InputRow';
-import { useInput } from '../hooks/input';
-import { authenticate, errorSelector } from '../redux/authSlice';
+import useInput from '../hooks/input';
+import {
+  authenticateThunk,
+  errorSelector,
+  isLoggedInSelector,
+} from '../redux/auth';
 
 export default function Login() {
+  const router = useHistory();
   const dispatch = useDispatch();
   const { value: valueEmail, onChange: changeEmail } = useInput('');
   const { value: valuePassword, onChange: changePassword } = useInput('');
   const authenticateError = useSelector(errorSelector);
+  const isLoggedIn = useSelector(isLoggedInSelector);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace('/');
+    }
+  }, [isLoggedIn, router]);
 
   return (
     <form>
@@ -36,7 +49,7 @@ export default function Login() {
           e.preventDefault();
 
           dispatch(
-            authenticate({
+            authenticateThunk({
               email: valueEmail,
               password: valuePassword,
             })

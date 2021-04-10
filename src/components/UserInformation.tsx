@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getAccessToken } from '../redux/authSlice';
-import { getUserInfoThunk, userInfoSelector } from '../redux/userSlice';
+import { getAccessToken } from '../redux/auth';
+import { getUserInfoThunk, userInfoSelector } from '../redux/user';
 import styling from '../styling';
 
 const StyledUserInformation = styled.dl`

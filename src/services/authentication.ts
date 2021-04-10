@@ -39,8 +39,10 @@ export async function authenticate({
   });
 }
 
-export async function logout(refreshToken: string) {
-  await axios.delete(`${serviceUrl}/auth/sessions`, {
-    headers: bearerToken(refreshToken),
+export async function logout(accessToken: string): Promise<void> {
+  await axios.delete<{
+    access_token: string;
+  }>(`${serviceUrl}/auth/sessions/`, {
+    headers: bearerToken(accessToken),
   });
 }

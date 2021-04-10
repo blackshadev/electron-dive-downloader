@@ -1,27 +1,26 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import authSlice, { serializableAuthSelector } from './authSlice';
-import descriptorSlice, {
-  serializableDescriptorSelector,
-} from './descriptorSlice';
 import { makeSerializable, loadPersistedState } from './persist';
-import userSlice from './userSlice';
+import userReducer from './user/reducer';
+import authReducer from './auth/reducer';
+import contextReducer from './divecomputer/context/reducer';
+import descriptorReducer from './divecomputer/descriptor/reducer';
+import transportReducer from './divecomputer/transport/reducer';
+import { serializableAuthSelector } from './auth';
+import { serializableDescriptorSelector } from './divecomputer/descriptor';
 
 const store = configureStore({
   reducer: {
-    descriptors: descriptorSlice,
-    auth: authSlice,
-    user: userSlice,
+    descriptors: descriptorReducer,
+    auth: authReducer,
+    user: userReducer,
+    context: contextReducer,
+    transport: transportReducer,
   },
   middleware: getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [
-        'descriptors/setDescriptors',
-        'descriptors/selectDescriptor',
-      ],
-      ignoredPaths: ['descriptors.all'],
-    },
+    serializableCheck: false,
   }),
 });
+export type RootState = ReturnType<typeof store.getState>;
 
 store.subscribe(() => {
   const serializableState = makeSerializable(

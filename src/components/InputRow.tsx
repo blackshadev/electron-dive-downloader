@@ -1,9 +1,17 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
+import styling from '../styling';
 import Label from './Label';
 import Row from './Row';
 
-const InputContainer = styled.div``;
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  & > * {
+    margin-right: ${styling.spacing.sm};
+  }
+`;
 
 const StyledRow = styled(Row)`
   ${Label} {

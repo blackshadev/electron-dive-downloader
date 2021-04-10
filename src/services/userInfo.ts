@@ -1,5 +1,4 @@
 import axios from 'axios';
-import handleAxiosError from './axiosErrorHandling';
 import { serviceUrl, bearerToken } from './config';
 
 export interface IUserData {
@@ -14,11 +13,9 @@ export interface IUserData {
 }
 
 export async function userInfo(accessToken: string) {
-  return handleAxiosError(async () => {
-    const response = await axios.get<IUserData>(`${serviceUrl}/user/profile`, {
-      headers: bearerToken(accessToken),
-    });
-
-    return response.data;
+  const response = await axios.get<IUserData>(`${serviceUrl}/user/profile`, {
+    headers: bearerToken(accessToken),
   });
+
+  return response.data;
 }
