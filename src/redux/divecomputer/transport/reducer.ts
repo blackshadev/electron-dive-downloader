@@ -7,18 +7,22 @@ import {
 } from './actions';
 import { TransportState } from './types';
 
-const intialState: TransportState = {
+const initialState: TransportState = {
   availableTransports: [],
   transport: undefined,
   type: Transport.None,
 };
 
-export default createReducer<TransportState>(intialState, (builder) =>
+export default createReducer<TransportState>(initialState, (builder) =>
   builder
     .addCase(setTransportType, (state, action) => {
       state.type = action.payload;
     })
-    .addCase(setTransportSource, (state, action) => {})
+    .addCase(setTransportSource, (state, action) => {
+      state.transport = state.availableTransports.find(
+        (transport) => transport.key === action.payload
+      );
+    })
     .addCase(getTransportSources.fulfilled, (state, action) => {
       state.availableTransports = action.payload;
     })

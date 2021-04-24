@@ -1,7 +1,6 @@
 import { Transport } from 'libdivecomputerjs';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Button from '../components/Button';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
 import Row from '../components/Row';
@@ -19,12 +18,21 @@ import {
   getAvailableTransports,
   getTransportSources,
   getTransportType,
+  setTransportSource,
   setTransportType,
   TransportSource,
 } from '../redux/divecomputer/transport';
 import DownloadIcon from '../../assets/icons/fa/download-solid.svg';
 import RefreshIcon from '../../assets/icons/fa/sync-alt-solid.svg';
+import CancelIcon from '../../assets/icons/fa/ban-solid.svg';
 import IconButton from '../components/IconButton';
+import {
+  getProgress,
+  isReading as getIsReading,
+  setState,
+  startReading,
+} from '../redux/divecomputer/device';
+import ProgressBar from '../components/ProgressBar';
 
 export default function Download() {
   const allDescriptors = useSelector(allDescriptorsSelector);
@@ -32,6 +40,8 @@ export default function Download() {
   const descriptor = useSelector(selectedDescriptor);
   const transportSources = useSelector(getAvailableTransports);
   const transport = useSelector(getTransportType);
+  const progress = useSelector(getProgress);
+  const isReading = useSelector(getIsReading);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -47,6 +57,10 @@ export default function Download() {
   useEffect(() => {
     dispatch(getTransportSources());
   }, [dispatch, transport]);
+
+  useEffect(() => {
+    dispatch(setTransportSource(transportSources[0]?.key));
+  }, [dispatch, transportSources]);
 
   return (
     <form>
@@ -80,7 +94,10 @@ export default function Download() {
       </InputRow>
 
       <InputRow label="Source" name="source">
-        <Select name="source">
+        <Select
+          name="source"
+          onChange={(e) => dispatch(setTransportSource(e.target.value))}
+        >
           {transportSources.length === 0 && <option>(None)</option>}
           {transportSources.length > 0 &&
             transportSources.map((t: TransportSource) => (
@@ -117,10 +134,38 @@ export default function Download() {
       </InputRow>
 
       <Row>
-        <IconButton rounded primary size="md">
-          <DownloadIcon />
-        </IconButton>
+        {/* {isReading && (
+          <IconButton
+            rounded
+            primary
+            size="md"
+            onClick={() => dispatch(setState('cancelled'))}
+          >
+            <CancelIcon />
+          </IconButton>
+        )} */}
+
+        {!isReading && (
+          <IconButton
+            rounded
+            primary
+            size="md"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('h');
+              dispatch(startReading());
+            }}
+          >
+            <DownloadIcon />
+          </IconButton>
+        )}
       </Row>
+
+      {isReading && (
+        <InputRow label="Reading" name="reading">
+          <ProgressBar progress={progress} />
+        </InputRow>
+      )}
     </form>
   );
 }

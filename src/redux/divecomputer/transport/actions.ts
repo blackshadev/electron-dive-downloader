@@ -6,18 +6,24 @@ import {
   Transport,
   USBHIDTransport,
 } from 'libdivecomputerjs';
-import type { RootState } from '../../store';
-import { getContext } from '../context';
-import { selectedDescriptor } from '../descriptor';
+import { ContextState, getContext } from '../context';
+import { DescriptorState, selectedDescriptor } from '../descriptor';
 import { getTransportType } from './selectors';
-import { TransportSource } from './types';
+import { TransportSource, TransportState } from './types';
 
 export const setTransportType = createAction<Transport>('setTransportType');
 export const setTransportSource = createAction<string>('setTransport');
+
 export const getTransportSources = createAsyncThunk<
   TransportSource[],
   void,
-  { state: RootState }
+  {
+    state: {
+      context: ContextState;
+      descriptors: DescriptorState;
+      transport: TransportState;
+    };
+  }
 >('getTransportSources', (_, thunkApi) => {
   const state = thunkApi.getState();
   const context = getContext(state);
@@ -25,7 +31,7 @@ export const getTransportSources = createAsyncThunk<
   const transportType = getTransportType(state);
 
   if (!descriptor) {
-    return [];
+    return [] as TransportSource[];
   }
 
   type AllTransports =
@@ -52,7 +58,12 @@ export const getTransportSources = createAsyncThunk<
       return [];
   }
 
-  const transportSources = transport.iterate(context, descriptor) as any[];
+  const transportSources = transport.iterate(context, descriptor) as (
+    | USBHIDTransport
+    | SerialTransport
+    | BluetoothTranport
+    | IRDATransport
+  )[];
 
   return Array.from(transportSources).map(
     (transportSource) =>

@@ -3,6 +3,7 @@ import { makeSerializable, loadPersistedState } from './persist';
 import userReducer from './user/reducer';
 import authReducer from './auth/reducer';
 import contextReducer from './divecomputer/context/reducer';
+import deviceReducer from './divecomputer/device/reducer';
 import descriptorReducer from './divecomputer/descriptor/reducer';
 import transportReducer from './divecomputer/transport/reducer';
 import { serializableAuthSelector } from './auth';
@@ -10,10 +11,11 @@ import { serializableDescriptorSelector } from './divecomputer/descriptor';
 
 const store = configureStore({
   reducer: {
-    descriptors: descriptorReducer,
     auth: authReducer,
-    user: userReducer,
     context: contextReducer,
+    descriptors: descriptorReducer,
+    device: deviceReducer,
+    user: userReducer,
     transport: transportReducer,
   },
   middleware: getDefaultMiddleware({
