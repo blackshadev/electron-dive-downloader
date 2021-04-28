@@ -4,9 +4,9 @@ import {
   AuthenticateParameters,
   logout,
   requestAccessToken,
-} from '../../services/authentication';
+} from '../../services/auth/authentication';
 import handleAxiosError from '../../services/axiosErrorHandling';
-import withAccessToken from '../../services/withAccessTokens';
+import withAccessToken from '../../services/auth/withAccessTokens';
 import { getTokens } from './selectors';
 import { AuthState } from './types';
 

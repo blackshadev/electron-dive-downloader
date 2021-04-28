@@ -1,6 +1,6 @@
 import axios from 'axios';
-import handleAxiosError from './axiosErrorHandling';
-import { bearerToken, serviceUrl } from './config';
+import handleAxiosError from '../axiosErrorHandling';
+import { bearerToken, serviceUrl } from '../config';
 
 export interface AuthenticateParameters {
   email: string;

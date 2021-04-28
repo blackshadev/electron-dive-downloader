@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import handleAxiosError from '../../services/axiosErrorHandling';
-import { IUserData, userInfo } from '../../services/userInfo';
-import withAccessToken from '../../services/withAccessTokens';
+import { IUserData, userInfo } from '../../services/auth/userInfo';
+import withAccessToken from '../../services/auth/withAccessTokens';
 import { AuthState, getTokens, setAccessToken } from '../auth';
 
 export const getUserInfoThunk = createAsyncThunk<

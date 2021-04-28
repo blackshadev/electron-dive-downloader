@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IUserData } from '../../services/userInfo';
+import { IUserData } from '../../services/auth/userInfo';
 import { getUserInfoThunk } from './actions';
 import { UserState } from './types';
 

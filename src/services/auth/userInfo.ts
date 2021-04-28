@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { serviceUrl, bearerToken } from './config';
+import { serviceUrl, bearerToken } from '../config';
 
 export interface IUserData {
   buddy_count: number;

@@ -1,4 +1,4 @@
-import { IUserData } from '../../services/userInfo';
+import { IUserData } from '../../services/auth/userInfo';
 
 export type UserState = {
   userData?: IUserData;
