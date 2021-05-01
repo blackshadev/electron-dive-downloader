@@ -9,7 +9,7 @@ export interface AuthenticateParameters {
 
 export async function requestAccessToken(
   refreshToken: string
-): Promise<{ access_token: string }> {
+): Promise<string> {
   return handleAxiosError(async () => {
     const response = await axios.get<{
       access_token: string;
@@ -17,7 +17,7 @@ export async function requestAccessToken(
       headers: bearerToken(refreshToken),
     });
 
-    return response.data;
+    return response.data.access_token;
   });
 }
 

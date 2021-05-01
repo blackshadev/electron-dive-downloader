@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getAccessToken } from '../redux/auth';
-import { getUserInfoThunk, userInfoSelector } from '../redux/user';
+import { userInfoSelector } from '../redux/user';
 import styling from '../styling';
 
 const StyledUserInformation = styled.dl`
@@ -16,15 +15,7 @@ const StyledUserInformation = styled.dl`
 `;
 
 export default function UserInformation() {
-  const dispatch = useDispatch();
-  const accessToken = useSelector(getAccessToken);
   const userData = useSelector(userInfoSelector);
-
-  useEffect(() => {
-    if (!userData) {
-      dispatch(getUserInfoThunk());
-    }
-  }, [accessToken, dispatch, userData]);
 
   if (!userData) {
     return null;

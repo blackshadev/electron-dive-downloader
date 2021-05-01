@@ -1,11 +1,10 @@
-import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { loadPersistedState } from '../persist';
+import { createReducer } from '@reduxjs/toolkit';
 import {
   setError,
   setAccessToken,
   setRefreshToken,
-  logoutThunk,
-  authenticateThunk,
+  loggedout,
+  authenticate,
 } from './actions';
 import { AuthState } from './types';
 
@@ -26,26 +25,11 @@ export default createReducer<AuthState>(initialState, (builder) =>
     .addCase(setRefreshToken, (state, action) => {
       state.refreshToken = action.payload;
     })
-    .addCase(logoutThunk.fulfilled, (state) => {
+    .addCase(loggedout, (state) => {
       state.accessToken = undefined;
       state.refreshToken = undefined;
     })
-    .addCase(authenticateThunk.pending, (state) => {
+    .addCase(authenticate, (state) => {
       state.error = undefined;
     })
-    .addCase(authenticateThunk.rejected, (state, action) => {
-      state.error = action.error.message;
-    })
-    .addCase(
-      loadPersistedState.type,
-      (
-        state,
-        action: PayloadAction<{
-          auth?: { accessToken: string; refreshToken: string };
-        }>
-      ) => {
-        state.accessToken = action.payload.auth?.accessToken;
-        state.refreshToken = action.payload.auth?.refreshToken;
-      }
-    )
 );

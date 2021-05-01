@@ -1,17 +1,13 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  AsyncDeviceReader,
-  Device,
-  EventType,
-  Parser,
-} from 'libdivecomputerjs';
+import { AsyncDeviceReader, EventType, Parser } from 'libdivecomputerjs';
 import DiveParser from '../../../services/parsing/diveParser';
 import DiveSampleParser from '../../../services/parsing/diveSampleParser';
+import { selectComputer } from '../../computers';
 import { addDive } from '../../dive/actions';
 import { ContextState, getContext } from '../context';
 import { DescriptorState, selectedDescriptor } from '../descriptor';
 import { getSelectedTransport, TransportState } from '../transport';
-import { getDevice, isCancelled } from './selectors';
+
 import { DeviceState, ReadingState } from './types';
 
 export const setProgress = createAction<{ current: number; maximum: number }>(
@@ -52,7 +48,6 @@ export const startReading = createAsyncThunk<
   reader.setContext(context);
   reader.setDescriptor(descriptor);
   reader.setTransport(transport.original);
-
   reader.onDevice(() => {});
 
   let devtime = 0;
@@ -61,17 +56,24 @@ export const startReading = createAsyncThunk<
   reader.onEvents(
     [EventType.Clock, EventType.DevInfo, EventType.Progress, EventType.Waiting],
     (args) => {
-      console.log(args);
-      if (args.type === EventType.Progress) {
-        thunkApi.dispatch(
-          setProgress({
-            current: args.data.current,
-            maximum: args.data.maximum,
-          })
-        );
-      } else if (args.type === EventType.Clock) {
-        devtime = args.data.devtime;
-        systime = args.data.systime;
+      switch (args.type) {
+        case EventType.Progress:
+          thunkApi.dispatch(
+            setProgress({
+              current: args.data.current,
+              maximum: args.data.maximum,
+            })
+          );
+          break;
+        case EventType.Clock:
+          devtime = args.data.devtime;
+          systime = args.data.systime;
+          break;
+        case EventType.DevInfo:
+          thunkApi.dispatch(selectComputer(args.data));
+          break;
+        default:
+          break;
       }
     }
   );
@@ -85,14 +87,12 @@ export const startReading = createAsyncThunk<
     try {
       const dive = parser.parse(divedata, fingerprint);
 
-      console.log(dive.date, dive.divetime, dive.tanks);
       thunkApi.dispatch(addDive(dive));
     } catch (err) {
       console.error(err);
     }
   });
 
-  console.log('read');
   reader.read((err) => {
     console.log('done?', err?.toString());
     thunkApi.dispatch(setState('none'));

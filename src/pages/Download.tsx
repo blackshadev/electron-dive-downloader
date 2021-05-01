@@ -24,12 +24,10 @@ import {
 } from '../redux/divecomputer/transport';
 import DownloadIcon from '../../assets/icons/fa/download-solid.svg';
 import RefreshIcon from '../../assets/icons/fa/sync-alt-solid.svg';
-import CancelIcon from '../../assets/icons/fa/ban-solid.svg';
 import IconButton from '../components/IconButton';
 import {
   getProgress,
   isReading as getIsReading,
-  setState,
   startReading,
 } from '../redux/divecomputer/device';
 import ProgressBar from '../components/ProgressBar';

@@ -1,4 +1,4 @@
-import { Device, FieldType, Parser } from 'libdivecomputerjs';
+import { FieldType, Parser } from 'libdivecomputerjs';
 import { Dive, ITank } from '../../redux/dive';
 import DiveSampleParser from './diveSampleParser';
 

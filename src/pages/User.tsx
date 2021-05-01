@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import UserInformation from '../components/UserInformation';
-import { isLoggedInSelector, logoutThunk } from '../redux/auth';
+import { isLoggedInSelector, logout } from '../redux/auth';
 
 export default function User() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(isLoggedInSelector);
   const history = useHistory();
 
-  if (!isLoggedIn) {
-    history.replace('/login');
-  }
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.replace('/login');
+    }
+  }, [isLoggedIn, history]);
 
   return (
     <>
@@ -20,7 +22,7 @@ export default function User() {
         type="button"
         onClick={(e) => {
           e.preventDefault();
-          dispatch(logoutThunk());
+          dispatch(logout());
         }}
       >
         Logout

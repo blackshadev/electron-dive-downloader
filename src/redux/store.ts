@@ -1,13 +1,18 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
 import { makeSerializable, loadPersistedState } from './persist';
 import userReducer from './user/reducer';
 import authReducer from './auth/reducer';
+import computersReducer from './computers/reducer';
 import contextReducer from './divecomputer/context/reducer';
 import deviceReducer from './divecomputer/device/reducer';
 import descriptorReducer from './divecomputer/descriptor/reducer';
 import transportReducer from './divecomputer/transport/reducer';
 import { serializableAuthSelector } from './auth';
 import { serializableDescriptorSelector } from './divecomputer/descriptor';
+import sagas from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: {
@@ -17,12 +22,18 @@ const store = configureStore({
     device: deviceReducer,
     user: userReducer,
     transport: transportReducer,
+    computers: computersReducer,
   },
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  middleware: [
+    ...getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+    sagaMiddleware,
+  ],
 });
 export type RootState = ReturnType<typeof store.getState>;
+
+sagaMiddleware.run(sagas);
 
 store.subscribe(() => {
   const serializableState = makeSerializable(

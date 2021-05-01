@@ -1,6 +1,6 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { IUserData } from '../../services/auth/userInfo';
-import { getUserInfoThunk } from './actions';
+import { resetUserData, setUserData } from './actions';
 import { UserState } from './types';
 
 const initialState = {
@@ -8,10 +8,11 @@ const initialState = {
 };
 
 export default createReducer<UserState>(initialState, (builder) =>
-  builder.addCase(
-    getUserInfoThunk.fulfilled,
-    (state, action: PayloadAction<IUserData>) => {
+  builder
+    .addCase(setUserData, (state, action: PayloadAction<IUserData>) => {
       state.userData = action.payload;
-    }
-  )
+    })
+    .addCase(resetUserData, (state) => {
+      state.userData = undefined;
+    })
 );

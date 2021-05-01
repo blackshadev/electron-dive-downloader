@@ -4,6 +4,11 @@ export type AuthState = {
   accessToken?: string;
 };
 
+export interface ICredentials {
+  email: string;
+  password: string;
+}
+
 export type PersistedAuthState = {
   refreshToken?: string;
   accessToken?: string;

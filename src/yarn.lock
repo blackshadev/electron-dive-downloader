@@ -502,7 +502,7 @@ lcid@^1.0.0:
 
 libdivecomputerjs@blackshadev/libdivecomputerjs.git:
   version "1.0.0"
-  resolved "https://codeload.github.com/blackshadev/libdivecomputerjs/tar.gz/73b2546f3d6914051eefaf2a22b4d9b898afdce3"
+  resolved "https://codeload.github.com/blackshadev/libdivecomputerjs/tar.gz/38ed167f2900321c60ac51240fd255a2d59b2ca7"
   dependencies:
     bindings "^1.5.0"
     cmake-js "^6.1.0"

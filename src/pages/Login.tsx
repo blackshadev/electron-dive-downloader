@@ -6,11 +6,7 @@ import ErrorRow from '../components/ErrorRow';
 import Input from '../components/Input';
 import InputRow from '../components/InputRow';
 import useInput from '../hooks/input';
-import {
-  authenticateThunk,
-  errorSelector,
-  isLoggedInSelector,
-} from '../redux/auth';
+import { authenticate, errorSelector, isLoggedInSelector } from '../redux/auth';
 
 export default function Login() {
   const router = useHistory();
@@ -49,7 +45,7 @@ export default function Login() {
           e.preventDefault();
 
           dispatch(
-            authenticateThunk({
+            authenticate({
               email: valueEmail,
               password: valuePassword,
             })
