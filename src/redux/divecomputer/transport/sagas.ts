@@ -37,7 +37,6 @@ export function* getTransportSourcesSaga(): SagaIterator {
   const transportType: Transport = yield select(getTransportType);
 
   if (!descriptor) {
-    console.log('here2 return');
     return;
   }
 
@@ -62,7 +61,6 @@ export function* getTransportSourcesSaga(): SagaIterator {
       transport = BluetoothTranport;
       break;
     default:
-      console.log('break', transportType);
       return;
   }
 
