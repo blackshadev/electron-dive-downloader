@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Fonts from './Fonts';
 import MainLayout from './layout/MainLayout';
@@ -8,7 +8,7 @@ import Download from './pages/Download';
 import Log from './pages/Log';
 import Login from './pages/Login';
 import User from './pages/User';
-import { initializeContext } from './redux/divecomputer/context';
+import store from './redux/store';
 import style from './styling';
 
 const GlobalStyle = createGlobalStyle`
@@ -34,26 +34,23 @@ body {
 `;
 
 export default function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(initializeContext());
-  }, [dispatch]);
-
   return (
     <>
-      <GlobalStyle />
-      <Fonts />
+      <Provider store={store}>
+        <GlobalStyle />
+        <Fonts />
 
-      <Router>
-        <MainLayout>
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/user" component={User} />
-            <Route path="/log" component={Log} />
-            <Route path="/" component={Download} />
-          </Switch>
-        </MainLayout>
-      </Router>
+        <Router>
+          <MainLayout>
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/user" component={User} />
+              <Route path="/log" component={Log} />
+              <Route path="/" component={Download} />
+            </Switch>
+          </MainLayout>
+        </Router>
+      </Provider>
     </>
   );
 }

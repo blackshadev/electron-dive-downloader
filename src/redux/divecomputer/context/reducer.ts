@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Context } from 'libdivecomputerjs';
-import { addLog, setLogLevel, setState } from './actions';
+import { addLog, setLogLevel, setContextState } from './actions';
 import { ContextState } from './types';
 
 const initialState = {
@@ -17,7 +17,7 @@ export default createReducer<ContextState>(initialState, (builder) =>
     .addCase(setLogLevel, (state, action) => {
       state.context.logLevel = action.payload;
     })
-    .addCase(setState, (state, action) => {
+    .addCase(setContextState, (state, action) => {
       state.state = action.payload;
     })
 );

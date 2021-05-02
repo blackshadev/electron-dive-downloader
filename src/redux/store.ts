@@ -11,6 +11,7 @@ import transportReducer from './divecomputer/transport/reducer';
 import { serializableAuthSelector } from './auth';
 import { serializableDescriptorSelector } from './divecomputer/descriptor';
 import sagas from './sagas';
+import { initialize } from './global/actions';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -51,5 +52,7 @@ function getPersistedState(): any {
 }
 
 store.dispatch(loadPersistedState(getPersistedState()));
+
+store.dispatch(initialize());
 
 export default store;

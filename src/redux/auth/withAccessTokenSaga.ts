@@ -25,7 +25,7 @@ export default function* withAccessToken<
     return yield call(inner, ...getParameters(currentAccessToken));
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
-      const { refreshToken } = yield select(getRefreshToken);
+      const refreshToken: string = yield select(getRefreshToken);
       if (!refreshToken) {
         throw new Error('No refresh token set');
       }

@@ -9,7 +9,6 @@ import {
   allDescriptorsSelector,
   descriptorId,
   descriptorName,
-  fetchDescriptors,
   selectDescriptor,
   selectedDescriptor,
   supportedTransports,
@@ -42,11 +41,6 @@ export default function Download() {
   const isReading = useSelector(getIsReading);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (allDescriptors.length === 0) {
-      dispatch(fetchDescriptors());
-    }
-  }, [dispatch, allDescriptors]);
 
   useEffect(() => {
     dispatch(setTransportType(transports[0] ?? Transport.None));
@@ -150,7 +144,6 @@ export default function Download() {
             size="md"
             onClick={(e) => {
               e.preventDefault();
-              console.log('h');
               dispatch(startReading());
             }}
           >

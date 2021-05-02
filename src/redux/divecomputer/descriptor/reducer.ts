@@ -1,6 +1,6 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { loadPersistedState } from '../../persist';
-import { fetchDescriptors, selectDescriptor, setDescriptors } from './actions';
+import { selectDescriptor, setDescriptors } from './actions';
 import { descriptorId } from './helpers';
 import { DescriptorState } from './types';
 
@@ -34,7 +34,4 @@ export default createReducer<DescriptorState>(initialState, (builder) =>
         state.selected = action.payload.descriptors?.selected;
       }
     )
-    .addCase(fetchDescriptors.fulfilled, (state, payload) => {
-      state.all = payload.payload;
-    })
 );
