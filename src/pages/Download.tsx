@@ -1,5 +1,5 @@
 import { Transport } from 'libdivecomputerjs';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
@@ -14,10 +14,9 @@ import {
   supportedTransports,
 } from '../redux/divecomputer/descriptor';
 import {
-  getAvailableTransports,
-  getTransportSources,
-  getTransportType,
-  setTransportSource,
+  availableTransports,
+  getAvailableTransportSources,
+  setSelectedTransportSource,
   setTransportType,
   TransportSource,
 } from '../redux/divecomputer/transport';
@@ -35,24 +34,11 @@ export default function Download() {
   const allDescriptors = useSelector(allDescriptorsSelector);
   const transports = useSelector(supportedTransports);
   const descriptor = useSelector(selectedDescriptor);
-  const transportSources = useSelector(getAvailableTransports);
-  const transport = useSelector(getTransportType);
+  const transportSources = useSelector(availableTransports);
   const progress = useSelector(getProgress);
   const isReading = useSelector(getIsReading);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setTransportType(transports[0] ?? Transport.None));
-  }, [dispatch, transports]);
-
-  useEffect(() => {
-    dispatch(getTransportSources());
-  }, [dispatch, transport]);
-
-  useEffect(() => {
-    dispatch(setTransportSource(transportSources[0]?.key));
-  }, [dispatch, transportSources]);
 
   return (
     <form>
@@ -88,7 +74,7 @@ export default function Download() {
       <InputRow label="Source" name="source">
         <Select
           name="source"
-          onChange={(e) => dispatch(setTransportSource(e.target.value))}
+          onChange={(e) => dispatch(setSelectedTransportSource(e.target.value))}
         >
           {transportSources.length === 0 && <option>(None)</option>}
           {transportSources.length > 0 &&
@@ -103,7 +89,7 @@ export default function Download() {
           outline
           onClick={(e) => {
             e.preventDefault();
-            dispatch(getTransportSources());
+            dispatch(getAvailableTransportSources());
           }}
         >
           <RefreshIcon />

@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Transport } from 'libdivecomputerjs';
 import {
-  getTransportSources,
-  setTransportSource,
+  setAvailableTransportSources,
+  setSelectedTransportSource,
   setTransportType,
 } from './actions';
 import { TransportState } from './types';
@@ -18,12 +18,17 @@ export default createReducer<TransportState>(initialState, (builder) =>
     .addCase(setTransportType, (state, action) => {
       state.type = action.payload;
     })
-    .addCase(setTransportSource, (state, action) => {
+    .addCase(setSelectedTransportSource, (state, action) => {
+      if (action.payload === undefined) {
+        state.transport = undefined;
+        return;
+      }
+
       state.transport = state.availableTransports.find(
         (transport) => transport.key === action.payload
       );
     })
-    .addCase(getTransportSources.fulfilled, (state, action) => {
+    .addCase(setAvailableTransportSources, (state, action) => {
       state.availableTransports = action.payload;
     })
 );

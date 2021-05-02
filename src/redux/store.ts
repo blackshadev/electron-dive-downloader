@@ -51,8 +51,8 @@ function getPersistedState(): any {
   return stateString ? JSON.parse(stateString) : {};
 }
 
-store.dispatch(loadPersistedState(getPersistedState()));
-
 store.dispatch(initialize());
+
+store.dispatch(loadPersistedState(getPersistedState()));
 
 export default store;

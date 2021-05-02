@@ -1,14 +1,26 @@
 import { put, takeLatest } from '@redux-saga/core/effects';
 import { SagaIterator } from '@redux-saga/types';
+import { PayloadAction } from '@reduxjs/toolkit';
 import { Descriptor } from 'libdivecomputerjs';
 import { initialize } from '../../global/actions';
-import { setDescriptors } from './actions';
+import { loadPersistedState } from '../../persist';
+import { selectDescriptor, setDescriptors } from './actions';
 
 export function* loadDescriptorSaga(): SagaIterator {
   const descriptors = Array.from(Descriptor.iterate());
   yield put(setDescriptors(descriptors));
 }
 
+export function* selectPreviousSelector(
+  action: PayloadAction<{ descriptors?: { selected?: string } }>
+): SagaIterator {
+  const selected = action.payload.descriptors?.selected;
+  if (selected) {
+    yield put(selectDescriptor(selected));
+  }
+}
+
 export default function* descriptorSagas(): SagaIterator {
   yield takeLatest(initialize, loadDescriptorSaga);
+  yield takeLatest(loadPersistedState, selectPreviousSelector);
 }

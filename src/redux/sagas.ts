@@ -6,6 +6,7 @@ import userSaga from './user/sagas';
 import deviceSaga from './divecomputer/device/sagas';
 import contextSaga from './divecomputer/context/sagas';
 import descriptorSagas from './divecomputer/descriptor/sagas';
+import transportSagas from './divecomputer/transport/sagas';
 
 export default function* rootSaga(): SagaIterator {
   yield all([
@@ -15,5 +16,6 @@ export default function* rootSaga(): SagaIterator {
     spawn(deviceSaga),
     spawn(contextSaga),
     spawn(descriptorSagas),
+    spawn(transportSagas),
   ]);
 }

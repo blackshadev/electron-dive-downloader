@@ -2,7 +2,7 @@
 
 import { createAction, Selector } from '@reduxjs/toolkit';
 
-export const loadPersistedState = createAction<any>('load');
+export const loadPersistedState = createAction<any>('loadPersistedState');
 
 export function makeSerializable<T>(
   state: T,
