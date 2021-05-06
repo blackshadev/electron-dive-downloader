@@ -1,6 +1,5 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { makeSerializable, loadPersistedState } from './persist';
 import userReducer from './user/reducer';
 import authReducer from './auth/reducer';
 import computersReducer from './computers/reducer';
@@ -8,10 +7,10 @@ import contextReducer from './divecomputer/context/reducer';
 import deviceReducer from './divecomputer/device/reducer';
 import descriptorReducer from './divecomputer/descriptor/reducer';
 import transportReducer from './divecomputer/transport/reducer';
-import { serializableAuthSelector } from './auth';
-import { serializableDescriptorSelector } from './divecomputer/descriptor';
+import persistanceReducer from './persistence/reducer';
 import sagas from './sagas';
 import { initialize } from './global/actions';
+import { fetchPersistedState } from './persistence';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -24,6 +23,7 @@ const store = configureStore({
     user: userReducer,
     transport: transportReducer,
     computers: computersReducer,
+    persistance: persistanceReducer,
   },
   middleware: [
     ...getDefaultMiddleware({
@@ -36,23 +36,8 @@ export type RootState = ReturnType<typeof store.getState>;
 
 sagaMiddleware.run(sagas);
 
-store.subscribe(() => {
-  const serializableState = makeSerializable(
-    store.getState(),
-    serializableDescriptorSelector,
-    serializableAuthSelector
-  );
-  localStorage.setItem('reduxState', JSON.stringify(serializableState));
-});
-
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-function getPersistedState(): any {
-  const stateString = localStorage.getItem('reduxState');
-  return stateString ? JSON.parse(stateString) : {};
-}
-
 store.dispatch(initialize());
 
-store.dispatch(loadPersistedState(getPersistedState()));
+store.dispatch(fetchPersistedState());
 
 export default store;

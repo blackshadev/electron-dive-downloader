@@ -3,7 +3,7 @@ import { SagaIterator } from '@redux-saga/types';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Descriptor } from 'libdivecomputerjs';
 import { initialize } from '../../global/actions';
-import { loadPersistedState } from '../../persist';
+import { loadPersistedState } from '../../persistence';
 import { selectDescriptor, setDescriptors } from './actions';
 
 export function* loadDescriptorSaga(): SagaIterator {

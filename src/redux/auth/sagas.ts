@@ -15,7 +15,7 @@ import {
 } from '../../services/auth/authentication';
 import { ICredentials } from './types';
 import { getAccessToken } from './selectors';
-import { loadPersistedState } from '../persist';
+import { loadPersistedState } from '../persistence';
 
 export function* authenticateSaga(
   action: PayloadAction<ICredentials>
