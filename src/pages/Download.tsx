@@ -16,6 +16,8 @@ import {
 import {
   availableTransports,
   getAvailableTransportSources,
+  getSelectedTransport,
+  getTransportType,
   setSelectedTransportSource,
   setTransportType,
   TransportSource,
@@ -26,9 +28,13 @@ import IconButton from '../components/IconButton';
 import {
   getProgress,
   isReading as getIsReading,
-  startReading,
+  readStart,
 } from '../redux/divecomputer/device';
 import ProgressBar from '../components/ProgressBar';
+import {
+  getOutputState as getOutputType,
+  setOutputType,
+} from '../redux/writer';
 
 export default function Download() {
   const allDescriptors = useSelector(allDescriptorsSelector);
@@ -37,6 +43,9 @@ export default function Download() {
   const transportSources = useSelector(availableTransports);
   const progress = useSelector(getProgress);
   const isReading = useSelector(getIsReading);
+  const writerType = useSelector(getOutputType);
+  const transportType = useSelector(getTransportType);
+  const transportSource = useSelector(getSelectedTransport);
 
   const dispatch = useDispatch();
 
@@ -96,17 +105,29 @@ export default function Download() {
         </IconButton>
       </InputRow>
 
-      <InputRow label="Select dives" name="select">
+      {/* <InputRow label="Select dives" name="select">
         <input name="select" type="checkbox" />
-      </InputRow>
+      </InputRow> */}
 
       <InputRow label="Output" name="output">
         <Label htmlFor="output-file">
-          <input name="output" id="output-file" type="radio" />
+          <input
+            name="output"
+            id="output-file"
+            type="radio"
+            checked={writerType === 'file'}
+            onChange={() => dispatch(setOutputType('file'))}
+          />
           File
         </Label>
         <Label htmlFor="output-littlelog">
-          <input name="output" id="output-littlelog" type="radio" />
+          <input
+            name="output"
+            id="output-littlelog"
+            type="radio"
+            checked={writerType === 'littledev'}
+            onChange={() => dispatch(setOutputType('littledev'))}
+          />
           Littlelog
         </Label>
       </InputRow>
@@ -128,9 +149,12 @@ export default function Download() {
             rounded
             primary
             size="md"
+            disabled={
+              isReading || !descriptor || !transportType || !transportSource
+            }
             onClick={(e) => {
               e.preventDefault();
-              dispatch(startReading());
+              dispatch(readStart());
             }}
           >
             <DownloadIcon />

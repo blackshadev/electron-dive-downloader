@@ -7,6 +7,7 @@ import contextReducer from './divecomputer/context/reducer';
 import deviceReducer from './divecomputer/device/reducer';
 import descriptorReducer from './divecomputer/descriptor/reducer';
 import transportReducer from './divecomputer/transport/reducer';
+import writerReducer from './writer/reducer';
 import persistanceReducer from './persistence/reducer';
 import sagas from './sagas';
 import { initialize } from './global/actions';
@@ -23,6 +24,7 @@ const store = configureStore({
     user: userReducer,
     transport: transportReducer,
     computers: computersReducer,
+    writer: writerReducer,
     persistance: persistanceReducer,
   },
   middleware: [

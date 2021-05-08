@@ -11,7 +11,7 @@ export interface ITank {
   endPressure?: number;
   gasmix?: GasMix;
   volume?: number;
-  type?: TankVolume;
+  type?: 'bar' | 'psi';
   workingPressure?: number;
 }
 

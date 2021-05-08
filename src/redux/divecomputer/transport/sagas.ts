@@ -22,7 +22,7 @@ import {
   setSelectedTransportSource,
   setTransportType,
 } from './actions';
-import { getTransportType } from './selectors';
+import { availableTransports, getTransportType } from './selectors';
 import { TransportSource } from './types';
 
 export function* selectFirstSupportedTransport(): SagaIterator {
@@ -85,9 +85,7 @@ export function* getTransportSourcesSaga(): SagaIterator {
 }
 
 export function* selectFirstTransportSource(): SagaIterator {
-  const transportSources: TransportSource[] = yield select(
-    getAvailableTransportSources
-  );
+  const transportSources: TransportSource[] = yield select(availableTransports);
   yield put(setSelectedTransportSource(transportSources[0]?.key));
 }
 

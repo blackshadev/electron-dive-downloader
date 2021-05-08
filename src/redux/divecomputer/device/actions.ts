@@ -5,4 +5,4 @@ export const setReadProgress = createAction<Progress>('setProgress');
 export const setDeviceState = createAction<ReadingState>('setState');
 export const setFingerprint = createAction<string>('setFingerprint');
 export const setDeviceSerial = createAction<string>('setDeviceSerial');
-export const startReading = createAction('startReading');
+export const readStart = createAction('readStart');

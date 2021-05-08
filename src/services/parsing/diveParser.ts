@@ -75,7 +75,7 @@ export default class DiveParser {
     const tank: ITank = {
       beginPressure: divetank.beginPressure,
       endPressure: divetank.endPressure,
-      type: divetank.type,
+      type: divetank.type === 'Imperial' ? 'psi' : 'bar',
       workingPressure: divetank.workingPressure,
       volume: divetank.volume,
       gasmix,

@@ -5,10 +5,21 @@ export interface ButtonProps {
   primary?: boolean;
   flat?: boolean;
   outline?: boolean;
+  disabled?: boolean;
 }
 
-const color = (props: ButtonProps) =>
-  props.primary ? style.colors.primary : style.colors.font;
+const color = (props: ButtonProps) => {
+  if (props.disabled) {
+    return style.colors.disabled;
+  }
+
+  if (props.primary) {
+    return style.colors.primary;
+  }
+
+  return style.colors.font;
+};
+
 const border = (props: ButtonProps) =>
   props.outline ? `1px solid ${color(props)}` : '0';
 const background = (props: ButtonProps) =>
@@ -22,7 +33,7 @@ export const ButtonCSS = css<ButtonProps>`
   border: ${border};
   background: ${background};
   border-radius: ${style.misc.borderRadius};
-  cursor: pointer;
+  cursor: ${(props: ButtonProps) => (props.disabled ? 'normal' : 'cursor')};
 `;
 
 const Button = styled.button<ButtonProps>`

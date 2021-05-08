@@ -15,4 +15,5 @@ export default Object.assign(colors, {
   background: colors.white,
   primary: colors.purple,
   inputBackground: colors.lightGrey,
+  disabled: colors.grey,
 });

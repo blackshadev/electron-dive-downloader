@@ -14,7 +14,7 @@ import { addDive } from '../../dive/actions';
 import { getContext } from '../context';
 import { selectedDescriptor } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
-import { setReadProgress, setDeviceState, startReading } from './actions';
+import { setReadProgress, setDeviceState, readStart, readEnd } from './actions';
 import { getState } from './selectors';
 import { ReadingState } from './types';
 
@@ -96,5 +96,5 @@ export function* readSaga(): SagaIterator {
 }
 
 export default function* deviceSaga(): SagaIterator {
-  yield takeLatest(startReading, readSaga);
+  yield takeLatest(readStart, readSaga);
 }
