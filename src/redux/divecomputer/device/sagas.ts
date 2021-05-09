@@ -14,7 +14,7 @@ import { addDive } from '../../dive/actions';
 import { getContext } from '../context';
 import { selectedDescriptor } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
-import { setReadProgress, setDeviceState, readStart, readEnd } from './actions';
+import { setReadProgress, setDeviceState, readStart } from './actions';
 import { getState } from './selectors';
 import { ReadingState } from './types';
 

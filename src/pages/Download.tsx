@@ -32,9 +32,12 @@ import {
 } from '../redux/divecomputer/device';
 import ProgressBar from '../components/ProgressBar';
 import {
-  getOutputState as getOutputType,
+  getOutputFilePath,
+  getOutputType,
+  setOutputFilePath,
   setOutputType,
 } from '../redux/writer';
+import SaveFileInput from '../components/FileInput';
 
 export default function Download() {
   const allDescriptors = useSelector(allDescriptorsSelector);
@@ -43,9 +46,10 @@ export default function Download() {
   const transportSources = useSelector(availableTransports);
   const progress = useSelector(getProgress);
   const isReading = useSelector(getIsReading);
-  const writerType = useSelector(getOutputType);
+  const outputType = useSelector(getOutputType);
   const transportType = useSelector(getTransportType);
   const transportSource = useSelector(getSelectedTransport);
+  const outputFilePath = useSelector(getOutputFilePath);
 
   const dispatch = useDispatch();
 
@@ -115,7 +119,7 @@ export default function Download() {
             name="output"
             id="output-file"
             type="radio"
-            checked={writerType === 'file'}
+            checked={outputType === 'file'}
             onChange={() => dispatch(setOutputType('file'))}
           />
           File
@@ -125,12 +129,22 @@ export default function Download() {
             name="output"
             id="output-littlelog"
             type="radio"
-            checked={writerType === 'littledev'}
+            checked={outputType === 'littledev'}
             onChange={() => dispatch(setOutputType('littledev'))}
           />
           Littlelog
         </Label>
       </InputRow>
+
+      {outputType === 'file' && (
+        <InputRow label="Filename" name="filename">
+          <SaveFileInput
+            value={outputFilePath}
+            onChange={(filepath) => dispatch(setOutputFilePath(filepath))}
+            name="filename"
+          />
+        </InputRow>
+      )}
 
       <Row>
         {/* {isReading && (

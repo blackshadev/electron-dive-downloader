@@ -1,7 +1,6 @@
 import {
   DiveMode,
   GasMix,
-  TankVolume,
   WaterType,
   SampleEventType,
 } from 'libdivecomputerjs';

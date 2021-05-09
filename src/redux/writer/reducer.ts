@@ -1,12 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { addDive } from '../dive';
 import { readStart } from '../divecomputer/device';
-import { setOutputType, written } from './actions';
+import { setOutputFilePath, setOutputType, written } from './actions';
 import { WriterState } from './types';
 
 const initialState = {
   outputType: 'file',
   pendingWrites: 0,
+  filePath: undefined,
 } as WriterState;
 
 export default createReducer<WriterState>(initialState, (builder) =>
@@ -23,5 +24,8 @@ export default createReducer<WriterState>(initialState, (builder) =>
     })
     .addCase(written, (state) => {
       state.pendingWrites -= 1;
+    })
+    .addCase(setOutputFilePath, (state, action) => {
+      state.filePath = action.payload;
     })
 );

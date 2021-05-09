@@ -4,4 +4,5 @@ export type WriterState = {
   outputType: WriterType;
   isReading: boolean;
   pendingWrites: number;
+  filePath?: string;
 };
