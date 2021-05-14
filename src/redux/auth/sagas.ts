@@ -12,7 +12,7 @@ import {
 import {
   authenticate as authenicateApi,
   logout as logoutApi,
-} from '../../services/auth/authentication';
+} from '../../services/api/auth/authentication';
 import { ICredentials } from './types';
 import { getAccessToken } from './selectors';
 import { loadPersistedState } from '../persistence';
@@ -35,7 +35,11 @@ export function* authenticateSaga(
 
 export function* logoutSaga(): SagaIterator {
   const accessToken: string = yield select(getAccessToken);
-  yield call(logoutApi, accessToken);
+  try {
+    yield call(logoutApi, accessToken);
+  } catch (err) {
+    console.error(err);
+  }
   yield put(loggedout());
 }
 

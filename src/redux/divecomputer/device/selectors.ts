@@ -9,6 +9,9 @@ export const getProgress = (state: { device: DeviceState }) =>
 export const getDevice = (state: { device: DeviceState }) =>
   state.device.device;
 
+export const getDeviceInfo = (state: { device: DeviceState }) =>
+  state.device.deviceInfo;
+
 export const isCancelled = createSelector(
   getState,
   (state) => state === 'cancelled'

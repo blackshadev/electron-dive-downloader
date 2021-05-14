@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { IUserData } from '../../services/auth/userInfo';
+import { IUserData } from '../../services/api/auth/userInfo';
 import { resetUserData, setUserData } from './actions';
 import { UserState } from './types';
 

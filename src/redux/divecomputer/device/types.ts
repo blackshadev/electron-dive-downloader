@@ -7,10 +7,11 @@ export type Progress = {
   maximum: number;
 };
 
+export type DeviceInfo = { firmware: number; model: number; serial: number };
+
 export type DeviceState = {
   progress: Progress;
+  deviceInfo?: DeviceInfo;
   device?: Device;
-  serial?: string;
-  fingerprint?: string;
   state: ReadingState;
 };

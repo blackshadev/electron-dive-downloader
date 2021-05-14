@@ -14,7 +14,7 @@ export default class DiveParser {
     const dive: Dive = {
       fingerprint: fingerprint.toString('base64'),
       date: this.parser.getDatetime(),
-      divetime: this.parser.getField(FieldType.DiveTime),
+      divetime: this.parser.getField(FieldType.DiveTime) ?? 0,
       avgDepth: this.parser.getField(FieldType.AverageDepth),
       maxDepth: this.parser.getField(FieldType.MaxDepth),
       maxTemperature: this.parser.getField(FieldType.TemperatureMaximum),

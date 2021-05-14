@@ -1,7 +1,7 @@
 import { call, select, put } from '@redux-saga/core/effects';
 import { SagaIterator } from '@redux-saga/types';
 import axios from 'axios';
-import { requestAccessToken } from '../../services/auth/authentication';
+import { requestAccessToken } from '../../services/api/auth/authentication';
 import { setAccessToken } from './actions';
 import { getAccessToken, getRefreshToken } from './selectors';
 
@@ -33,6 +33,30 @@ export default function* withAccessToken<
       const newToken: string = yield call(requestAccessToken, refreshToken);
       yield put(setAccessToken(newToken));
       return yield call(inner, ...getParameters(newToken));
+    }
+
+    throw error;
+  }
+}
+
+export function* execWithAccessToken(
+  cb: (accessToken: string) => any
+): SagaIterator {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+
+  const currentAccessToken: string = yield select(getAccessToken);
+  try {
+    return yield call(cb, currentAccessToken);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      const refreshToken: string = yield select(getRefreshToken);
+      if (!refreshToken) {
+        throw new Error('No refresh token set');
+      }
+
+      const newToken: string = yield call(requestAccessToken, refreshToken);
+      yield put(setAccessToken(newToken));
+      return yield call(cb, newToken);
     }
 
     throw error;

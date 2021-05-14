@@ -1,6 +1,6 @@
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest, select } from 'redux-saga/effects';
-import getComputersApi from '../../services/computers/getComputers';
+import getComputersApi from '../../services/api/computers/getComputers';
 import { getAccessToken, loggedin, loggedout } from '../auth';
 import withAccessToken from '../auth/withAccessTokenSaga';
 import { resetComputers, setComputers } from './actions';

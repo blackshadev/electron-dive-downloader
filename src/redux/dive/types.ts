@@ -15,25 +15,25 @@ export interface ITank {
 }
 
 export interface ISample {
-  time: number;
-  temperature?: number;
-  depth?: number;
-  cns?: number;
-  rbt?: number;
-  ppo2?: number;
-  bearing?: number;
-  setpoint?: number;
-  heartbeat?: number;
-  gasmix?: number;
-  pressure?: number[];
-  deco?: { depth: number; time: number; type: number };
-  events?: { type: SampleEventType; flags: number; value: number }[];
+  Time: number;
+  Temperature?: number;
+  Depth?: number;
+  CNS?: number;
+  RBT?: number;
+  PPO2?: number;
+  Bearing?: number;
+  SetPoint?: number;
+  Heartbeat?: number;
+  Gasmix?: number;
+  Pressure?: { Pressure: number; Tank: number }[];
+  Deco?: { depth: number; time: number; type: number };
+  Events?: { type: SampleEventType; flags: number; value: number }[];
 }
 
 export interface Dive {
   fingerprint: string;
   date: string;
-  divetime?: number;
+  divetime: number;
   maxDepth?: number;
   avgDepth?: number;
   maxTemperature?: number;

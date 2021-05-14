@@ -1,10 +1,9 @@
 import { Descriptor } from 'libdivecomputerjs';
 import { Dive } from '../../redux/dive';
-
-export type DevInfo = { firmware: number; model: number; serial: number };
+import { DeviceInfo } from '../../redux/divecomputer/device';
 
 export default interface Writer {
-  setComputer(descriptor: Descriptor, devInfo: DevInfo): Promise<void>;
+  setComputer(descriptor: Descriptor, deviceInfo: DeviceInfo): Promise<void>;
   write(dive: Dive): Promise<void>;
   end(): Promise<void>;
 }

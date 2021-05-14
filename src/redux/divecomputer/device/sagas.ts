@@ -9,12 +9,17 @@ import { channel, SagaIterator } from 'redux-saga';
 import { put, select, take, takeLatest } from 'redux-saga/effects';
 import DiveParser from '../../../services/parsing/diveParser';
 import DiveSampleParser from '../../../services/parsing/diveSampleParser';
-import { selectComputer } from '../../computers';
+import { findComputer, getComputers, IComputer } from '../../computers';
 import { addDive } from '../../dive/actions';
 import { getContext } from '../context';
 import { selectedDescriptor } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
-import { setReadProgress, setDeviceState, readStart } from './actions';
+import {
+  setReadProgress,
+  setDeviceState,
+  readStart,
+  receivedDeviceInfo,
+} from './actions';
 import { getState } from './selectors';
 import { ReadingState } from './types';
 
@@ -23,6 +28,7 @@ export function* readSaga(): SagaIterator {
   const context: Context = yield select(getContext);
   const descriptor: Descriptor = yield select(selectedDescriptor);
   const transport: TransportSource = yield select(getSelectedTransport);
+  const computers: IComputer[] = yield select(getComputers);
 
   if (!descriptor) {
     throw new Error('No descriptor selected');
@@ -60,7 +66,22 @@ export function* readSaga(): SagaIterator {
           systime = args.data.systime;
           break;
         case EventType.DevInfo:
-          deviceUpdatesChannel.put(selectComputer(args.data));
+          {
+            console.log(
+              computers[0].serial,
+              args.data.serial,
+              computers[0].serial === args.data.serial
+            );
+            const computer = findComputer(computers, args.data);
+            console.log(computer);
+            deviceUpdatesChannel.put(receivedDeviceInfo(args.data));
+
+            const lastFingerprint = computer?.lastFingerprint;
+            console.log('last fp', lastFingerprint, computers, args.data);
+            if (lastFingerprint) {
+              reader.setFingerprint(Buffer.from(lastFingerprint, 'base64'));
+            }
+          }
           break;
         default:
           break;

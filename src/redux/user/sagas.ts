@@ -3,7 +3,7 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { getAccessToken, loggedin, loggedout } from '../auth';
 import { resetUserData, setUserData } from './actions';
 import { userInfoSelector } from './selectors';
-import { IUserData, userInfo } from '../../services/auth/userInfo';
+import { IUserData, userInfo } from '../../services/api/auth/userInfo';
 import withAccessToken from '../auth/withAccessTokenSaga';
 
 export function* getUserDataSaga(): SagaIterator {

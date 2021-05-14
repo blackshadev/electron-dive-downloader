@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { ComputerState, IComputerIdentity } from './types';
+import { ComputerState, IComputer, IComputerIdentity } from './types';
 
 const getComputerState = (state: { computers: ComputerState }) =>
   state.computers;
@@ -10,20 +10,15 @@ export const getComputers = createSelector(
 );
 
 function computerEquality(a: IComputerIdentity, b: IComputerIdentity) {
-  return a.serial === b.serial && a.model === b.model;
+  return a.serial === b.serial;
 }
 
-export const getSelectedComputer = createSelector(getComputerState, (state) => {
-  const { selectedComputer } = state;
+export function findComputer(
+  computers: IComputer[],
+  target: IComputerIdentity
+): IComputer | undefined {
+  return computers.find((c) => computerEquality(c, target));
+}
 
-  if (!selectedComputer) {
-    return undefined;
-  }
-
-  return state.computers?.find((c) => computerEquality(c, selectedComputer));
-});
-
-export const getLastFingerprint = createSelector(
-  getSelectedComputer,
-  (computer) => computer?.lastFingerprint
-);
+export const getSelectedComputer = (state: { computers: ComputerState }) =>
+  state.computers.selectedComputer;

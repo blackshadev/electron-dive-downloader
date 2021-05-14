@@ -1,10 +1,20 @@
 import { apply, call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { Descriptor } from 'libdivecomputerjs';
 import { SagaIterator } from 'redux-saga';
 import FileWriter from '../../services/writer/fileWriter';
+import LittledivelogWriter from '../../services/writer/littledivelogWriter';
 import Writer from '../../services/writer/writer';
 import createWriter from '../../services/writer/writerFactory';
+import { getAccessToken, setAccessToken } from '../auth';
+import { execWithAccessToken } from '../auth/withAccessTokenSaga';
 import { addDive, Dive } from '../dive';
+import { selectedDescriptor } from '../divecomputer/descriptor';
+import {
+  DeviceInfo,
+  getDeviceInfo,
+  receivedDeviceInfo,
+} from '../divecomputer/device';
 import { initialize } from '../global/actions';
 import { loadPersistedState } from '../persistence';
 import {
@@ -25,10 +35,26 @@ export function* setWriterPath(): SagaIterator {
   }
 }
 
+export function* updateAccessToken(): SagaIterator {
+  const accessToken: string = yield select(getAccessToken);
+  if (writer instanceof LittledivelogWriter) {
+    writer.setAccessToken(accessToken);
+  }
+}
+
+export function* updateComputer(): SagaIterator {
+  const descriptor: Descriptor = yield select(selectedDescriptor);
+  const devInfo: DeviceInfo = yield select(getDeviceInfo);
+  yield call(execWithAccessToken, () =>
+    writer.setComputer(descriptor, devInfo)
+  );
+}
+
 export function* setWriter(): SagaIterator {
   const writeType = yield select(getOutputType);
   writer = createWriter(writeType);
   yield call(setWriterPath);
+  yield call(updateAccessToken);
 }
 
 export function* writeDive(action: PayloadAction<Dive>): SagaIterator {
@@ -55,7 +81,7 @@ export function* setPreviousState(
   if (!action.payload.writer) {
     return;
   }
-  console.log('here', action.payload.writer.outputType);
+
   yield put(setOutputType(action.payload.writer.outputType));
 
   if (!action.payload.writer.filePath) {
@@ -69,5 +95,7 @@ export default function* writerSaga(): SagaIterator {
   yield takeLatest(setOutputFilePath, setWriterPath);
   yield takeLatest(addDive, writeDive);
   yield takeLatest(written, checkDone);
+  yield takeLatest(receivedDeviceInfo, updateComputer);
+  yield takeLatest(setAccessToken, updateAccessToken);
   yield takeLatest(loadPersistedState, setPreviousState);
 }

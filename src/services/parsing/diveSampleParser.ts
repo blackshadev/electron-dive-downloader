@@ -26,16 +26,16 @@ type NumericalSamplesTypes =
   | SampleType.Time;
 
 type NumericalFieldnames =
-  | 'bearing'
-  | 'cns'
-  | 'depth'
-  | 'gasmix'
-  | 'heartbeat'
-  | 'ppo2'
-  | 'rbt'
-  | 'setpoint'
-  | 'temperature'
-  | 'time';
+  | 'Bearing'
+  | 'CNS'
+  | 'Depth'
+  | 'Gasmix'
+  | 'Heartbeat'
+  | 'PPO2'
+  | 'RBT'
+  | 'SetPoint'
+  | 'Temperature'
+  | 'Time';
 
 export default class DiveSampleParser {
   private static SampleTypeToFieldName(
@@ -44,38 +44,38 @@ export default class DiveSampleParser {
   private static SampleTypeToFieldName(sampleType: SampleType): keyof ISample {
     switch (sampleType) {
       case SampleType.Bearing:
-        return 'bearing';
+        return 'Bearing';
       case SampleType.CNS:
-        return 'cns';
+        return 'CNS';
       case SampleType.Deco:
-        return 'deco';
+        return 'Deco';
       case SampleType.Depth:
-        return 'depth';
+        return 'Depth';
       case SampleType.Event:
-        return 'events';
+        return 'Events';
       case SampleType.Heartbeat:
-        return 'heartbeat';
+        return 'Heartbeat';
       case SampleType.PPO2:
-        return 'ppo2';
+        return 'PPO2';
       case SampleType.Pressure:
-        return 'pressure';
+        return 'Pressure';
       case SampleType.RBT:
-        return 'rbt';
+        return 'RBT';
       case SampleType.Setpoint:
-        return 'setpoint';
+        return 'SetPoint';
       case SampleType.Temperature:
-        return 'temperature';
+        return 'Temperature';
       case SampleType.Time:
-        return 'time';
+        return 'Time';
       case SampleType.Gasmix:
-        return 'gasmix';
+        return 'Gasmix';
       case SampleType.Vendor:
       default:
         throw new Error(`Invalid input sampleType ${sampleType}`);
     }
   }
 
-  private workingSample: ISample = { time: 0 };
+  private workingSample: ISample = { Time: 0 };
 
   private validSample = false;
 
@@ -117,7 +117,7 @@ export default class DiveSampleParser {
         this.addNumerical(sample.type, sample.value);
         break;
       case SampleType.Deco:
-        this.workingSample.deco = sample.value;
+        this.workingSample.Deco = sample.value;
         break;
       case SampleType.Pressure:
         this.addPressure(sample.value);
@@ -134,17 +134,20 @@ export default class DiveSampleParser {
     this.validSample = true;
     this.workingSample = {
       ...this.workingSample,
-      time,
-      events: undefined,
-      pressure: this.workingSample.pressure
-        ? [...this.workingSample.pressure]
+      Time: time,
+      Events: undefined,
+      Pressure: this.workingSample.Pressure
+        ? [...this.workingSample.Pressure]
         : undefined,
     };
   }
 
   private addPressure(pressureValue: { tank: number; value: number }) {
-    this.workingSample.pressure = this.workingSample.pressure ?? [];
-    this.workingSample.pressure[pressureValue.tank] = pressureValue.tank;
+    this.workingSample.Pressure = this.workingSample.Pressure ?? [];
+    this.workingSample.Pressure.push({
+      Pressure: pressureValue.value,
+      Tank: pressureValue.tank,
+    });
 
     this.addPressureToAggregate(pressureValue);
   }
