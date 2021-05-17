@@ -16,12 +16,27 @@ import { selectedDescriptor } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
 import {
   setReadProgress,
-  setDeviceState,
+  setReaderState,
   readStart,
   receivedDeviceInfo,
+  setDeviceError,
+  resetDeviceError,
 } from './actions';
-import { getState } from './selectors';
-import { ReadingState } from './types';
+import { getNewDivesOnly, getState } from './selectors';
+import { DeviceInfo, ReadingState } from './types';
+
+function setComputersLastFingerprint(
+  reader: AsyncDeviceReader,
+  computers: IComputer[],
+  deviceInfo: DeviceInfo
+): void {
+  const computer = findComputer(computers, deviceInfo);
+
+  const lastFingerprint = computer?.lastFingerprint;
+  if (lastFingerprint) {
+    reader.setFingerprint(Buffer.from(lastFingerprint, 'base64'));
+  }
+}
 
 export function* readSaga(): SagaIterator {
   const deviceUpdatesChannel = channel();
@@ -29,6 +44,7 @@ export function* readSaga(): SagaIterator {
   const descriptor: Descriptor = yield select(selectedDescriptor);
   const transport: TransportSource = yield select(getSelectedTransport);
   const computers: IComputer[] = yield select(getComputers);
+  const newDivesOnly: boolean = yield select(getNewDivesOnly);
 
   if (!descriptor) {
     throw new Error('No descriptor selected');
@@ -38,7 +54,8 @@ export function* readSaga(): SagaIterator {
     throw new Error('No transport selected');
   }
 
-  yield put(setDeviceState('reading'));
+  yield put(setReaderState('reading'));
+  yield put(resetDeviceError());
 
   const reader = new AsyncDeviceReader();
   reader.setContext(context);
@@ -66,21 +83,10 @@ export function* readSaga(): SagaIterator {
           systime = args.data.systime;
           break;
         case EventType.DevInfo:
-          {
-            console.log(
-              computers[0].serial,
-              args.data.serial,
-              computers[0].serial === args.data.serial
-            );
-            const computer = findComputer(computers, args.data);
-            console.log(computer);
-            deviceUpdatesChannel.put(receivedDeviceInfo(args.data));
+          deviceUpdatesChannel.put(receivedDeviceInfo(args.data));
 
-            const lastFingerprint = computer?.lastFingerprint;
-            console.log('last fp', lastFingerprint, computers, args.data);
-            if (lastFingerprint) {
-              reader.setFingerprint(Buffer.from(lastFingerprint, 'base64'));
-            }
+          if (newDivesOnly) {
+            setComputersLastFingerprint(reader, computers, args.data);
           }
           break;
         default:
@@ -94,18 +100,16 @@ export function* readSaga(): SagaIterator {
       new Parser(context, descriptor, devtime, systime),
       new DiveSampleParser()
     );
-    console.log('dive', fingerprint.toString('base64'));
-    try {
-      const dive = parser.parse(divedata, fingerprint);
-      deviceUpdatesChannel.put(addDive(dive));
-    } catch (err) {
-      console.error(err);
-    }
+
+    const dive = parser.parse(divedata, fingerprint);
+    deviceUpdatesChannel.put(addDive(dive));
   });
 
   reader.read((err) => {
-    console.log('done?', err?.toString());
-    deviceUpdatesChannel.put(setDeviceState('none'));
+    if (err) {
+      deviceUpdatesChannel.put(setDeviceError(err.message));
+    }
+    deviceUpdatesChannel.put(setReaderState('none'));
   });
 
   let state: ReadingState = yield select(getState);

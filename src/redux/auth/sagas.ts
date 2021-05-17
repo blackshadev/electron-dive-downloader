@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
 import {
   authenticate,
   loggedin,
@@ -16,6 +16,7 @@ import {
 import { ICredentials } from './types';
 import { getAccessToken } from './selectors';
 import { loadPersistedState } from '../persistence';
+import { requestAccessTokenSaga } from './withAccessTokenSaga';
 
 export function* authenticateSaga(
   action: PayloadAction<ICredentials>
@@ -53,6 +54,8 @@ export function* loadAuthState(
   }
   yield put(setAccessToken(action.payload.auth.accessToken));
   yield put(setRefreshToken(action.payload.auth.refreshToken));
+  yield delay(10000);
+  yield call(requestAccessTokenSaga);
   yield put(loggedin());
 }
 

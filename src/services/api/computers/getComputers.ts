@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { IComputer } from '../../../redux/computers/types';
-import { serviceUrl, bearerToken } from '../config';
+import { bearerToken } from '../../headers';
+import { serviceUrl } from '../config';
 
 interface ILittledevComputer {
   computer_id: number;

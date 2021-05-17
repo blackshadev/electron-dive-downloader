@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { addDive } from '../dive';
-import { readStart } from '../divecomputer/device';
+import { readStart } from '../divecomputer/reader';
 import { setOutputFilePath, setOutputType, written } from './actions';
 import { WriterState } from './types';
 

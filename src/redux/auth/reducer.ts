@@ -5,6 +5,7 @@ import {
   setRefreshToken,
   loggedout,
   authenticate,
+  loggedin,
 } from './actions';
 import { AuthState } from './types';
 
@@ -12,6 +13,7 @@ const initialState: AuthState = {
   accessToken: undefined,
   error: undefined,
   refreshToken: undefined,
+  isLoggedIn: false,
 };
 
 export default createReducer<AuthState>(initialState, (builder) =>
@@ -25,9 +27,13 @@ export default createReducer<AuthState>(initialState, (builder) =>
     .addCase(setRefreshToken, (state, action) => {
       state.refreshToken = action.payload;
     })
+    .addCase(loggedin, (state) => {
+      state.isLoggedIn = true;
+    })
     .addCase(loggedout, (state) => {
       state.accessToken = undefined;
       state.refreshToken = undefined;
+      state.isLoggedIn = false;
     })
     .addCase(authenticate, (state) => {
       state.error = undefined;

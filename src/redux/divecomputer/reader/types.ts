@@ -9,9 +9,11 @@ export type Progress = {
 
 export type DeviceInfo = { firmware: number; model: number; serial: number };
 
-export type DeviceState = {
+export type ReaderState = {
   progress: Progress;
   deviceInfo?: DeviceInfo;
   device?: Device;
   state: ReadingState;
+  error?: string;
+  newDivesOnly: boolean;
 };

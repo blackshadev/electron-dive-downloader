@@ -26,10 +26,13 @@ import DownloadIcon from '../../assets/icons/fa/download-solid.svg';
 import RefreshIcon from '../../assets/icons/fa/sync-alt-solid.svg';
 import IconButton from '../components/IconButton';
 import {
+  getDeviceError,
+  getNewDivesOnly,
   getProgress,
   isReading as getIsReading,
   readStart,
-} from '../redux/divecomputer/device';
+  setNewDivesOnly,
+} from '../redux/divecomputer/reader';
 import ProgressBar from '../components/ProgressBar';
 import {
   getOutputFilePath,
@@ -38,6 +41,7 @@ import {
   setOutputType,
 } from '../redux/writer';
 import SaveFileInput from '../components/FileInput';
+import { isLoggedInSelector } from '../redux/auth';
 
 export default function Download() {
   const allDescriptors = useSelector(allDescriptorsSelector);
@@ -50,6 +54,9 @@ export default function Download() {
   const transportType = useSelector(getTransportType);
   const transportSource = useSelector(getSelectedTransport);
   const outputFilePath = useSelector(getOutputFilePath);
+  const newDivesOnly = useSelector(getNewDivesOnly);
+  const error = useSelector(getDeviceError);
+  const isLoggedIn = useSelector(isLoggedInSelector);
 
   const dispatch = useDispatch();
 
@@ -109,10 +116,6 @@ export default function Download() {
         </IconButton>
       </InputRow>
 
-      {/* <InputRow label="Select dives" name="select">
-        <input name="select" type="checkbox" />
-      </InputRow> */}
-
       <InputRow label="Output" name="output">
         <Label htmlFor="output-file">
           <input
@@ -145,6 +148,16 @@ export default function Download() {
           />
         </InputRow>
       )}
+      <InputRow label="New dives only" name="new-dives-only">
+        <input
+          name="new-dives-only"
+          id="new-dives-only"
+          type="checkbox"
+          checked={newDivesOnly}
+          readOnly={isLoggedIn}
+          onChange={(ev) => dispatch(setNewDivesOnly(ev.target.checked))}
+        />
+      </InputRow>
 
       <Row>
         {/* {isReading && (
@@ -175,6 +188,12 @@ export default function Download() {
           </IconButton>
         )}
       </Row>
+
+      {error && (
+        <Row>
+          <Label>{error}</Label>
+        </Row>
+      )}
 
       {isReading && (
         <InputRow label="Reading" name="reading">

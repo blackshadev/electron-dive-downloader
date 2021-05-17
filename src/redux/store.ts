@@ -4,7 +4,7 @@ import userReducer from './user/reducer';
 import authReducer from './auth/reducer';
 import computersReducer from './computers/reducer';
 import contextReducer from './divecomputer/context/reducer';
-import deviceReducer from './divecomputer/device/reducer';
+import readerReducer from './divecomputer/reader/reducer';
 import descriptorReducer from './divecomputer/descriptor/reducer';
 import transportReducer from './divecomputer/transport/reducer';
 import writerReducer from './writer/reducer';
@@ -20,7 +20,7 @@ const store = configureStore({
     auth: authReducer,
     context: contextReducer,
     descriptors: descriptorReducer,
-    device: deviceReducer,
+    reader: readerReducer,
     user: userReducer,
     transport: transportReducer,
     computers: computersReducer,

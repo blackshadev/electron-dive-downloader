@@ -1,8 +1,6 @@
-// export const serviceUrl = 'https://api.dive.littledev.nl/api';
-export const serviceUrl = 'http://littledive.local/api';
-
-export function bearerToken(token: string): { Authorization: string } {
-  return { Authorization: `Bearer ${token}` };
-}
+export const serviceUrl =
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:8000/api'
+    : 'https://api.dive.littledev.nl/api';
 
 export default serviceUrl;

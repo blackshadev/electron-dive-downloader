@@ -10,6 +10,16 @@ type InnerFunctionParams<
   T extends (accessToken: string, ...args: any[]) => any
 > = T extends (accessToken: string, ...args: infer P) => any ? P : never;
 
+export function* requestAccessTokenSaga(): SagaIterator<string> {
+  const refreshToken: string = yield select(getRefreshToken);
+  if (!refreshToken) {
+    throw new Error('Unable request Access Token: No refresh token set');
+  }
+  const newToken: string = yield call(requestAccessToken, refreshToken);
+  yield put(setAccessToken(newToken));
+  return newToken;
+}
+
 export default function* withAccessToken<
   Fn extends (accessToken: string, ...args: any[]) => any
 >(inner: Fn, ...fnArgs: InnerFunctionParams<Fn>): SagaIterator {
@@ -30,8 +40,7 @@ export default function* withAccessToken<
         throw new Error('No refresh token set');
       }
 
-      const newToken: string = yield call(requestAccessToken, refreshToken);
-      yield put(setAccessToken(newToken));
+      const newToken: string = yield call(requestAccessTokenSaga);
       return yield call(inner, ...getParameters(newToken));
     }
 
@@ -49,13 +58,7 @@ export function* execWithAccessToken(
     return yield call(cb, currentAccessToken);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
-      const refreshToken: string = yield select(getRefreshToken);
-      if (!refreshToken) {
-        throw new Error('No refresh token set');
-      }
-
-      const newToken: string = yield call(requestAccessToken, refreshToken);
-      yield put(setAccessToken(newToken));
+      const newToken: string = yield call(requestAccessTokenSaga);
       return yield call(cb, newToken);
     }
 

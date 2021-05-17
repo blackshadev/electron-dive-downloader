@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { DeviceState, isReading } from '../divecomputer/device';
+import { ReaderState, isReading } from '../divecomputer/reader';
 import { WriterState } from './types';
 
 export const getWriterState = (state: { writer: WriterState }) => state.writer;
@@ -11,7 +11,7 @@ export const getOutputType = createSelector(
 
 export const getIsWriting = (state: {
   writer: WriterState;
-  device: DeviceState;
+  reader: ReaderState;
 }) => state.writer.pendingWrites > 0 || isReading(state);
 
 export const getOutputFilePath = createSelector(

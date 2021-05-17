@@ -2,6 +2,7 @@ export type AuthState = {
   error?: string;
   refreshToken?: string;
   accessToken?: string;
+  isLoggedIn: boolean;
 };
 
 export interface ICredentials {

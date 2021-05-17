@@ -3,13 +3,13 @@ import { resetComputers, selectComputer, setComputers } from './actions';
 import { ComputerState } from './types';
 
 const initialState = {
-  computers: undefined,
+  computers: [],
 } as ComputerState;
 
 export default createReducer<ComputerState>(initialState, (builder) =>
   builder
     .addCase(resetComputers, (state) => {
-      state.computers = undefined;
+      state.computers = [];
       state.selectedComputer = undefined;
     })
     .addCase(setComputers, (state, action) => {

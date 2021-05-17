@@ -10,6 +10,6 @@ export interface IComputer extends IComputerIdentity {
 }
 
 export type ComputerState = {
-  computers?: IComputer[];
+  computers: IComputer[];
   selectedComputer?: IComputer;
 };

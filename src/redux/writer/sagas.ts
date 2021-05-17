@@ -14,7 +14,7 @@ import {
   DeviceInfo,
   getDeviceInfo,
   receivedDeviceInfo,
-} from '../divecomputer/device';
+} from '../divecomputer/reader';
 import { initialize } from '../global/actions';
 import { loadPersistedState } from '../persistence';
 import {

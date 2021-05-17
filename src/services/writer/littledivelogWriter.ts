@@ -3,7 +3,7 @@ import { Dive } from '../../redux/dive';
 import Writer from './writer';
 import upsertComputer from '../api/computers/upsertComputer';
 import { IComputer } from '../../redux/computers';
-import { DeviceInfo } from '../../redux/divecomputer/device';
+import { DeviceInfo } from '../../redux/divecomputer/reader';
 import addDive from '../api/dives/addDive';
 
 export default class LittledivelogWriter implements Writer {

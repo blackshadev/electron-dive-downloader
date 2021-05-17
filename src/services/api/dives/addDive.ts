@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Salinity } from 'libdivecomputerjs';
 import { Dive } from '../../../redux/dive';
-import { serviceUrl, bearerToken } from '../config';
+import { bearerToken } from '../../headers';
+import { serviceUrl } from '../config';
 
 interface IDiveInput {
   date: string;
