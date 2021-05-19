@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ICredentials } from './types';
 
+export const tryToken = createAction('tryToken');
 export const setAccessToken = createAction<string>('setAccessToken');
 export const setRefreshToken = createAction<string>('setRefreshToken');
 export const setError = createAction<string>('setError');

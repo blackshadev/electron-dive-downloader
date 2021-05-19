@@ -8,13 +8,14 @@ import {
   logout,
   setAccessToken,
   setRefreshToken,
+  tryToken,
 } from './actions';
 import {
   authenticate as authenicateApi,
   logout as logoutApi,
 } from '../../services/api/auth/authentication';
 import { ICredentials } from './types';
-import { getAccessToken } from './selectors';
+import { getAccessToken, getRefreshToken } from './selectors';
 import { loadPersistedState } from '../persistence';
 import { requestAccessTokenSaga } from './withAccessTokenSaga';
 
@@ -44,6 +45,20 @@ export function* logoutSaga(): SagaIterator {
   yield put(loggedout());
 }
 
+export function* authenticateWithRefreshTokenSage(): SagaIterator {
+  const refreshToken = select(getRefreshToken);
+  if (!refreshToken) {
+    return;
+  }
+
+  try {
+    yield call(requestAccessTokenSaga);
+    yield put(loggedin());
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export function* loadAuthState(
   action: PayloadAction<{
     auth?: { accessToken: string; refreshToken: string };
@@ -54,13 +69,12 @@ export function* loadAuthState(
   }
   yield put(setAccessToken(action.payload.auth.accessToken));
   yield put(setRefreshToken(action.payload.auth.refreshToken));
-  yield delay(10000);
-  yield call(requestAccessTokenSaga);
-  yield put(loggedin());
+  yield call(authenticateWithRefreshTokenSage);
 }
 
 export default function* authenticationSaga(): SagaIterator {
   yield takeLatest(authenticate, authenticateSaga);
   yield takeLatest(logout, logoutSaga);
   yield takeLatest(loadPersistedState, loadAuthState);
+  yield takeLatest(tryToken, authenticateWithRefreshTokenSage);
 }

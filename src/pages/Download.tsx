@@ -133,6 +133,7 @@ export default function Download() {
             id="output-littlelog"
             type="radio"
             checked={outputType === 'littledev'}
+            disabled={!isLoggedIn}
             onChange={() => dispatch(setOutputType('littledev'))}
           />
           Littlelog
@@ -154,7 +155,7 @@ export default function Download() {
           id="new-dives-only"
           type="checkbox"
           checked={newDivesOnly}
-          readOnly={isLoggedIn}
+          disabled={!isLoggedIn}
           onChange={(ev) => dispatch(setNewDivesOnly(ev.target.checked))}
         />
       </InputRow>

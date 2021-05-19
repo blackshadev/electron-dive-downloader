@@ -6,7 +6,13 @@ import ErrorRow from '../components/ErrorRow';
 import Input from '../components/Input';
 import InputRow from '../components/InputRow';
 import useInput from '../hooks/input';
-import { authenticate, errorSelector, isLoggedInSelector } from '../redux/auth';
+import {
+  authenticate,
+  errorSelector,
+  getRefreshToken,
+  isLoggedInSelector,
+  tryToken,
+} from '../redux/auth';
 
 export default function Login() {
   const router = useHistory();
@@ -15,12 +21,15 @@ export default function Login() {
   const { value: valuePassword, onChange: changePassword } = useInput('');
   const authenticateError = useSelector(errorSelector);
   const isLoggedIn = useSelector(isLoggedInSelector);
+  const refreshtoken = useSelector(getRefreshToken);
 
   useEffect(() => {
     if (isLoggedIn) {
       router.replace('/');
+    } else if (refreshtoken) {
+      dispatch(tryToken());
     }
-  }, [isLoggedIn, router]);
+  }, [dispatch, isLoggedIn, router, refreshtoken]);
 
   return (
     <form>

@@ -12,9 +12,12 @@ export const serializableAuthSelector = (state: { auth: AuthState }) =>
   } as PersistedAuthState);
 
 export const errorSelector = (state: { auth: AuthState }) => state.auth.error;
+
 export const isLoggedInSelector = (state: { auth: AuthState }) =>
   state.auth.isLoggedIn;
+
 export const getAccessToken = (state: { auth: AuthState }) =>
   state.auth.accessToken;
+
 export const getRefreshToken = (state: { auth: AuthState }) =>
   state.auth.refreshToken;
