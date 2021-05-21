@@ -64,6 +64,7 @@ export default function Download() {
     <form>
       <InputRow label="Computer" name="descriptor">
         <Select
+          className="-grow"
           name="descriptor"
           value={descriptor ? descriptorId(descriptor) : undefined}
           onChange={(event) => dispatch(selectDescriptor(event.target.value))}
@@ -78,6 +79,7 @@ export default function Download() {
 
       <InputRow label="Transports" name="tranport">
         <Select
+          className="-grow"
           name="transport"
           onChange={(e) =>
             dispatch(setTransportType(e.target.value as Transport))
@@ -94,6 +96,7 @@ export default function Download() {
       <InputRow label="Source" name="source">
         <Select
           name="source"
+          className="-grow"
           onChange={(e) => dispatch(setSelectedTransportSource(e.target.value))}
         >
           {transportSources.length === 0 && <option>(None)</option>}

@@ -34,11 +34,17 @@ export default function Login() {
   return (
     <form>
       <InputRow label="E-mail" name="email">
-        <Input name="email" value={valueEmail} onChange={changeEmail} />
+        <Input
+          className="-grow"
+          name="email"
+          value={valueEmail}
+          onChange={changeEmail}
+        />
       </InputRow>
 
       <InputRow label="Password" name="password">
         <Input
+          className="-grow"
           name="password"
           type="password"
           value={valuePassword}

@@ -15,10 +15,18 @@ const InputContainer = styled.div`
 
 const StyledRow = styled(Row)`
   ${Label} {
-    min-width: 6rem;
+    min-width: 8rem;
   }
   ${InputContainer} {
     flex-grow: 1;
+
+    ${Label} {
+      min-width: auto;
+    }
+
+    .-grow {
+      flex-grow: 1;
+    }
   }
 `;
 

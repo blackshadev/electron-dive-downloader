@@ -1,12 +1,13 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest, select, delay } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import {
   authenticate,
   loggedin,
   loggedout,
   logout,
   setAccessToken,
+  setError,
   setRefreshToken,
   tryToken,
 } from './actions';
@@ -18,21 +19,27 @@ import { ICredentials } from './types';
 import { getAccessToken, getRefreshToken } from './selectors';
 import { loadPersistedState } from '../persistence';
 import { requestAccessTokenSaga } from './withAccessTokenSaga';
+import userReadableError from '../../services/userReadableError';
 
 export function* authenticateSaga(
   action: PayloadAction<ICredentials>
 ): SagaIterator {
-  const {
-    refresh_token: refreshToken,
-    access_token: accessToken,
-  }: { refresh_token: string; access_token: string } = yield call(
-    authenicateApi,
-    action.payload
-  );
+  try {
+    const {
+      refresh_token: refreshToken,
+      access_token: accessToken,
+    }: { refresh_token: string; access_token: string } = yield call(
+      authenicateApi,
+      action.payload
+    );
 
-  yield put(setAccessToken(accessToken));
-  yield put(setRefreshToken(refreshToken));
-  yield put(loggedin());
+    yield put(setAccessToken(accessToken));
+    yield put(setRefreshToken(refreshToken));
+    yield put(loggedin());
+  } catch (error) {
+    console.log(userReadableError(error));
+    yield put(setError(userReadableError(error)));
+  }
 }
 
 export function* logoutSaga(): SagaIterator {
@@ -67,9 +74,13 @@ export function* loadAuthState(
   if (!action.payload.auth) {
     return;
   }
-  yield put(setAccessToken(action.payload.auth.accessToken));
-  yield put(setRefreshToken(action.payload.auth.refreshToken));
-  yield call(authenticateWithRefreshTokenSage);
+  try {
+    yield put(setAccessToken(action.payload.auth.accessToken));
+    yield put(setRefreshToken(action.payload.auth.refreshToken));
+    yield call(authenticateWithRefreshTokenSage);
+  } catch (error) {
+    console.error(err);
+  }
 }
 
 export default function* authenticationSaga(): SagaIterator {
