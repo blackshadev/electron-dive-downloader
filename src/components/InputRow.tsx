@@ -36,12 +36,17 @@ export default function InputRow({
   label,
   name,
   children,
-}: PropsWithChildren<{ label: string | React.ReactNode; name: string }>) {
+  className,
+}: PropsWithChildren<{
+  label: string | React.ReactNode;
+  name: string;
+  className?: string;
+}>) {
   const labelElement =
     typeof label === 'string' ? <Label htmlFor={name}>{label}</Label> : label;
 
   return (
-    <StyledRow>
+    <StyledRow className={className}>
       {labelElement}
       <InputContainer>{children}</InputContainer>
     </StyledRow>

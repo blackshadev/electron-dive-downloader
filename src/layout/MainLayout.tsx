@@ -7,8 +7,12 @@ import { isLoggedInSelector } from '../redux/auth';
 import styling from '../styling';
 
 const MainContainer = styled.main`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   padding: ${styling.spacing.md};
   padding-bottom: ${styling.spacing.xl};
+  box-sizing: border-box;
 `;
 
 const Nav = styled.nav`

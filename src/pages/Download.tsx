@@ -61,7 +61,7 @@ export default function Download() {
   const dispatch = useDispatch();
 
   return (
-    <form>
+    <>
       <InputRow label="Computer" name="descriptor">
         <Select
           className="-grow"
@@ -163,7 +163,7 @@ export default function Download() {
         />
       </InputRow>
 
-      <Row>
+      <Row className="full content-centered">
         {/* {isReading && (
           <IconButton
             rounded
@@ -200,10 +200,10 @@ export default function Download() {
       )}
 
       {isReading && (
-        <InputRow label="Reading" name="reading">
+        <InputRow label="Reading" name="reading" className="full">
           <ProgressBar progress={progress} />
         </InputRow>
       )}
-    </form>
+    </>
   );
 }
