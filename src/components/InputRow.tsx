@@ -14,6 +14,8 @@ const InputContainer = styled.div`
 `;
 
 const StyledRow = styled(Row)`
+  height: ${styling.spacing.lg};
+
   ${Label} {
     min-width: 8rem;
   }

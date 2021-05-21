@@ -1,3 +1,4 @@
+import { darken } from 'polished';
 import styled, { css } from 'styled-components';
 import style from '../styling';
 
@@ -33,7 +34,15 @@ export const ButtonCSS = css<ButtonProps>`
   border: ${border};
   background: ${background};
   border-radius: ${style.misc.borderRadius};
-  cursor: ${(props: ButtonProps) => (props.disabled ? 'normal' : 'cursor')};
+  cursor: pointer;
+
+  &:disabled {
+    cursor: disabled;
+  }
+
+  &:hover {
+    background: ${(props) => darken(0.2, background(props))};
+  }
 `;
 
 const Button = styled.button<ButtonProps>`

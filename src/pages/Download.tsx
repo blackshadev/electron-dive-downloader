@@ -179,7 +179,7 @@ export default function Download() {
           <IconButton
             rounded
             primary
-            size="md"
+            size="lg"
             disabled={
               isReading || !descriptor || !transportType || !transportSource
             }

@@ -1,6 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Fonts from './Fonts';
 import MainLayout from './layout/MainLayout';
@@ -46,7 +51,10 @@ export default function App() {
               <Route path="/login" component={Login} />
               <Route path="/user" component={User} />
               <Route path="/log" component={Log} />
-              <Route path="/" component={Download} />
+              <Route path="/download" component={Download} />
+              <Route exact path="/">
+                <Redirect to="/download" />
+              </Route>
             </Switch>
           </MainLayout>
         </Router>

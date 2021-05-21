@@ -78,7 +78,7 @@ export function* loadAuthState(
     yield put(setAccessToken(action.payload.auth.accessToken));
     yield put(setRefreshToken(action.payload.auth.refreshToken));
     yield call(authenticateWithRefreshTokenSage);
-  } catch (error) {
+  } catch (err) {
     console.error(err);
   }
 }
