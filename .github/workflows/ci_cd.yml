@@ -79,8 +79,8 @@ jobs:
         run: |
           yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
-      - name: package
+      - name: publish package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn package
+          yarn package:deploy
