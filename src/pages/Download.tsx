@@ -1,29 +1,14 @@
-import { Transport } from 'libdivecomputerjs';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
 import Row from '../components/Row';
-import Select from '../components/Select';
+import { selectedDescriptorSelector } from '../redux/divecomputer/descriptor';
 import {
-  allDescriptorsSelector,
-  descriptorId,
-  descriptorName,
-  selectDescriptor,
-  selectedDescriptor,
-  supportedTransports,
-} from '../redux/divecomputer/descriptor';
-import {
-  availableTransports,
-  getAvailableTransportSources,
   getSelectedTransport,
   getTransportType,
-  setSelectedTransportSource,
-  setTransportType,
-  TransportSource,
 } from '../redux/divecomputer/transport';
 import DownloadIcon from '../../assets/icons/fa/download-solid.svg';
-import RefreshIcon from '../../assets/icons/fa/sync-alt-solid.svg';
 import IconButton from '../components/IconButton';
 import {
   getDeviceError,
@@ -42,12 +27,13 @@ import {
 } from '../redux/writer';
 import SaveFileInput from '../components/FileInput';
 import { isLoggedInSelector } from '../redux/auth';
+import ComputerDescriptorSelect from '../components/divecomputer/ComputerDescriptorSelect';
+import TransportSelect from '../components/divecomputer/TransportSelect';
+import DeviceSelect from '../components/divecomputer/DeviceSelect';
+import RefreshDeviceButton from '../components/divecomputer/RefreshDeviceButton';
 
 export default function Download() {
-  const allDescriptors = useSelector(allDescriptorsSelector);
-  const transports = useSelector(supportedTransports);
-  const descriptor = useSelector(selectedDescriptor);
-  const transportSources = useSelector(availableTransports);
+  const descriptor = useSelector(selectedDescriptorSelector);
   const progress = useSelector(getProgress);
   const isReading = useSelector(getIsReading);
   const outputType = useSelector(getOutputType);
@@ -63,60 +49,17 @@ export default function Download() {
   return (
     <>
       <InputRow label="Computer" name="descriptor">
-        <Select
-          className="-grow"
-          name="descriptor"
-          value={descriptor ? descriptorId(descriptor) : undefined}
-          onChange={(event) => dispatch(selectDescriptor(event.target.value))}
-        >
-          {allDescriptors.map((d) => (
-            <option key={descriptorId(d)} value={descriptorId(d)}>
-              {descriptorName(d)}
-            </option>
-          ))}
-        </Select>
+        <ComputerDescriptorSelect className="-grow" name="descriptor" />
       </InputRow>
 
       <InputRow label="Transports" name="tranport">
-        <Select
-          className="-grow"
-          name="transport"
-          onChange={(e) =>
-            dispatch(setTransportType(e.target.value as Transport))
-          }
-        >
-          {transports.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </Select>
+        <TransportSelect className="-grow" name="transport" />
       </InputRow>
 
       <InputRow label="Source" name="source">
-        <Select
-          name="source"
-          className="-grow"
-          onChange={(e) => dispatch(setSelectedTransportSource(e.target.value))}
-        >
-          {transportSources.length === 0 && <option>(None)</option>}
-          {transportSources.length > 0 &&
-            transportSources.map((t: TransportSource) => (
-              <option key={t.key} value={t.key}>
-                {t.name}
-              </option>
-            ))}
-        </Select>
+        <DeviceSelect className="-grow" name="source" />
 
-        <IconButton
-          outline
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(getAvailableTransportSources());
-          }}
-        >
-          <RefreshIcon />
-        </IconButton>
+        <RefreshDeviceButton />
       </InputRow>
 
       <InputRow label="Output" name="output">

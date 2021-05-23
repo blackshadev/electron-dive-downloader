@@ -9,7 +9,7 @@ import createWriter from '../../services/writer/writerFactory';
 import { getAccessToken, setAccessToken } from '../auth';
 import { execWithAccessToken } from '../auth/withAccessTokenSaga';
 import { addDive, Dive } from '../dive';
-import { selectedDescriptor } from '../divecomputer/descriptor';
+import { selectedDescriptorSelector } from '../divecomputer/descriptor';
 import {
   DeviceInfo,
   getDeviceInfo,
@@ -43,7 +43,7 @@ export function* updateAccessToken(): SagaIterator {
 }
 
 export function* updateComputer(): SagaIterator {
-  const descriptor: Descriptor = yield select(selectedDescriptor);
+  const descriptor: Descriptor = yield select(selectedDescriptorSelector);
   const devInfo: DeviceInfo = yield select(getDeviceInfo);
   yield call(execWithAccessToken, () =>
     writer.setComputer(descriptor, devInfo)

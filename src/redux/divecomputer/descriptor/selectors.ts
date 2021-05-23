@@ -6,13 +6,15 @@ export const allDescriptorsSelector = (state: {
   descriptors: DescriptorState;
 }) => state.descriptors.all.slice().sort(compareDescriptor);
 
-export const selectedDescriptor = (state: { descriptors: DescriptorState }) =>
+export const selectedDescriptorSelector = (state: {
+  descriptors: DescriptorState;
+}) =>
   state.descriptors.all.find(
     (descriptor) => state.descriptors.selected === descriptorId(descriptor)
   );
 
 export const supportedTransports = createSelector(
-  selectedDescriptor,
+  selectedDescriptorSelector,
   (state) => state?.transports ?? []
 );
 

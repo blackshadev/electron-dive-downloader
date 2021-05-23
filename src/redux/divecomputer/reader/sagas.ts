@@ -12,7 +12,7 @@ import DiveSampleParser from '../../../services/parsing/diveSampleParser';
 import { findComputer, getComputers, IComputer } from '../../computers';
 import { addDive } from '../../dive/actions';
 import { getContext } from '../context';
-import { selectedDescriptor } from '../descriptor';
+import { selectedDescriptorSelector } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
 import {
   setReadProgress,
@@ -41,7 +41,7 @@ function setComputersLastFingerprint(
 export function* readSaga(): SagaIterator {
   const deviceUpdatesChannel = channel();
   const context: Context = yield select(getContext);
-  const descriptor: Descriptor = yield select(selectedDescriptor);
+  const descriptor: Descriptor = yield select(selectedDescriptorSelector);
   const transport: TransportSource = yield select(getSelectedTransport);
   const computers: IComputer[] = yield select(getComputers);
   const newDivesOnly: boolean = yield select(getNewDivesOnly);

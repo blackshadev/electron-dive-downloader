@@ -12,7 +12,7 @@ import {
 import { getContext } from '../context';
 import {
   selectDescriptor,
-  selectedDescriptor,
+  selectedDescriptorSelector,
   setDescriptors,
   supportedTransports,
 } from '../descriptor';
@@ -33,7 +33,7 @@ export function* selectFirstSupportedTransport(): SagaIterator {
 
 export function* getTransportSourcesSaga(): SagaIterator {
   const context: Context = yield select(getContext);
-  const descriptor: Descriptor = yield select(selectedDescriptor);
+  const descriptor: Descriptor = yield select(selectedDescriptorSelector);
   const transportType: Transport = yield select(getTransportType);
 
   if (!descriptor) {
