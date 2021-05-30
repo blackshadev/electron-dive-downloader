@@ -38,7 +38,8 @@ jobs:
 
       - name: yarn install
         run: |
-          yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+          yarn install --frozen-lockfile --check-files --cache-folder .ycache
+          Remove-Item -Force -Recurse .ycache
 
       - name: yarn test
         run: |
