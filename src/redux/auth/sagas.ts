@@ -7,7 +7,6 @@ import {
   loggedout,
   logout,
   setAccessToken,
-  setError,
   setRefreshToken,
   tryToken,
 } from './actions';
@@ -20,6 +19,7 @@ import { getAccessToken, getRefreshToken } from './selectors';
 import { loadPersistedState } from '../persistence';
 import { requestAccessTokenSaga } from './withAccessTokenSaga';
 import userReadableError from '../../services/userReadableError';
+import { error } from '../logging';
 
 export function* authenticateSaga(
   action: PayloadAction<ICredentials>
@@ -36,9 +36,8 @@ export function* authenticateSaga(
     yield put(setAccessToken(accessToken));
     yield put(setRefreshToken(refreshToken));
     yield put(loggedin());
-  } catch (error) {
-    console.log(userReadableError(error));
-    yield put(setError(userReadableError(error)));
+  } catch (err) {
+    yield put(error({ source: 'auth', message: userReadableError(err) }));
   }
 }
 
@@ -47,7 +46,7 @@ export function* logoutSaga(): SagaIterator {
   try {
     yield call(logoutApi, accessToken);
   } catch (err) {
-    console.error(err);
+    yield put(error({ source: 'auth', message: userReadableError(err) }));
   }
   yield put(loggedout());
 }
@@ -62,7 +61,7 @@ export function* authenticateWithRefreshTokenSage(): SagaIterator {
     yield call(requestAccessTokenSaga);
     yield put(loggedin());
   } catch (err) {
-    console.error(err);
+    yield put(error({ source: 'auth', message: userReadableError(err) }));
   }
 }
 
@@ -79,7 +78,7 @@ export function* loadAuthState(
     yield put(setRefreshToken(action.payload.auth.refreshToken));
     yield call(authenticateWithRefreshTokenSage);
   } catch (err) {
-    console.error(err);
+    yield put(error({ source: 'auth', message: userReadableError(err) }));
   }
 }
 

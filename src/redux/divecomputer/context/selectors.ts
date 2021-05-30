@@ -1,8 +1,4 @@
-import { ContextState } from './types';
+import { getContext as getNativeContext } from './native';
 
-export const getContext = (state: { context: ContextState }) =>
-  state.context.context;
-export const getLogLevel = (state: { context: ContextState }) =>
-  state.context.context.logLevel;
-export const getLogLines = (state: { context: ContextState }) =>
-  state.context.loglines;
+export const getContext = () => getNativeContext();
+export default getContext;

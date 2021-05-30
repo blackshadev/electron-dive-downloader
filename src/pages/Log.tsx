@@ -1,31 +1,41 @@
-import { LogLevel as LogLevelType } from 'libdivecomputerjs';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Button from '../components/Button';
 import Select from '../components/Select';
 import {
-  addLog,
   getLogLevel,
   getLogLines,
+  log,
+  LogLevel,
   setLogLevel,
-} from '../redux/divecomputer/context';
+} from '../redux/logging';
+import getAllLogLevelKeys from '../redux/logging/support';
 import styling from '../styling';
 
-const LogLevel = styled.span``;
-
-const LogMessage = styled.span``;
-
-const LogLine = styled.div`
-  display: grid;
-  grid-template-columns: 55px auto;
-  border-bottom: 1px solid ${styling.colors.lightGrey};
+const LogLevelSpan = styled.span`
+  padding-right: ${styling.spacing.md};
+  padding-bottom: ${styling.spacing.md};
+  display: table-cell;
 `;
 
-const LogLines = styled.div``;
+const LogMessageSpan = styled.span`
+  display: table-cell;
+`;
+
+const LogLine = styled.div`
+  display: table-row;
+  grid-template-columns: min-content auto;
+`;
+
+const LogLines = styled.div`
+  display: table;
+`;
 
 const LogControls = styled.div`
   margin-bottom: ${styling.spacing.sm};
+  padding-bottom: ${styling.spacing.sm};
+  border-bottom: 1px solid ${styling.colors.lightGrey};
 `;
 
 const LogViewer = styled.div``;
@@ -41,18 +51,13 @@ export default function Log() {
         <Select
           value={loglevel}
           onChange={(e) => {
-            dispatch(setLogLevel(e.target.value as LogLevelType));
+            dispatch(
+              setLogLevel(LogLevel[e.target.value as keyof typeof LogLevel])
+            );
           }}
         >
-          {[
-            LogLevelType.All,
-            LogLevelType.Debug,
-            LogLevelType.Info,
-            LogLevelType.Warning,
-            LogLevelType.Error,
-            LogLevelType.None,
-          ].map((l) => (
-            <option key={l} value={l}>
+          {getAllLogLevelKeys().map((l) => (
+            <option key={l} value={LogLevel[l]}>
               {l}
             </option>
           ))}
@@ -61,9 +66,9 @@ export default function Log() {
           type="button"
           onClick={() =>
             dispatch(
-              addLog({
-                key: `Test:${Date.now()}`,
-                logLevel: LogLevelType.Info,
+              log({
+                loglevel,
+                source: 'user',
                 message: 'This is a test message',
               })
             )
@@ -76,8 +81,8 @@ export default function Log() {
       <LogLines>
         {lines.map((line) => (
           <LogLine key={line.key}>
-            <LogLevel>{line.logLevel}</LogLevel>
-            <LogMessage>{line.message}</LogMessage>
+            <LogLevelSpan>{LogLevel[line.loglevel]}</LogLevelSpan>
+            <LogMessageSpan>{line.message}</LogMessageSpan>
           </LogLine>
         ))}
       </LogLines>

@@ -5,8 +5,12 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 import { isLoggedInSelector } from '../redux/auth';
 import styling from '../styling';
+import ApplicationErrors from '../components/ApplicationErrors';
+import { ErrorNudgeDiv } from '../components/ErrorNudge';
 
 const MainContainer = styled.main`
+  position: absolute;
+  top: 0;
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -43,12 +47,26 @@ const Nav = styled.nav`
   }
 `;
 
+const ApplicationErrorSection = styled.section`
+  position: fixed;
+  bottom: ${styling.misc.navHeight};
+  width: 100%;
+
+  ${ErrorNudgeDiv} {
+    margin: 0 ${styling.spacing.lg};
+    margin-bottom: ${styling.spacing.md};
+  }
+`;
+
 export default function MainLayout({ children }: PropsWithChildren<unknown>) {
   const isAuthenticated = useSelector(isLoggedInSelector);
 
   return (
     <>
       <MainContainer>{children}</MainContainer>
+      <ApplicationErrorSection>
+        <ApplicationErrors />
+      </ApplicationErrorSection>
       <Nav>
         <NavLink to="/download">Download</NavLink>
         <NavLink to="/log">Log</NavLink>

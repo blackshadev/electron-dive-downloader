@@ -1,19 +1,26 @@
 import { channel } from '@redux-saga/core';
 import { put, select, take, takeLatest } from '@redux-saga/core/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { LogLevel } from 'libdivecomputerjs';
+import { Context, LogLevel as DCLogLevel } from 'libdivecomputerjs';
 import { initialize } from '../../global/actions';
-import { addLog, setContextState } from './actions';
+import { getLogLevel, log, LogLevel, setLogLevel } from '../../logging';
+import { translateDCLogLevel, translateLogLevel } from './support';
+import { setContextState } from './actions';
 import { getContext } from './selectors';
+import { setContext, setLogLevel as setNativeLogLevel } from './native';
 
 export function* initContextSaga(): SagaIterator {
+  setContext(new Context());
   const logChannel = channel();
-  const context = yield select(getContext);
-  context.onLog((logLevel: LogLevel, message: string) => {
-    const rnd = Math.floor(Math.random() * 255);
-    const key = `${Date.now()}:${rnd}`;
-
-    logChannel.put(addLog({ key, logLevel, message }));
+  const context = getContext();
+  context.onLog((logLevel: DCLogLevel, message: string) => {
+    logChannel.put(
+      log({
+        source: 'libdivecomputer',
+        loglevel: translateDCLogLevel(logLevel),
+        message,
+      })
+    );
   });
   yield put(setContextState('ready'));
 
@@ -23,6 +30,12 @@ export function* initContextSaga(): SagaIterator {
   }
 }
 
+export function* setLogLevelSaga(): SagaIterator {
+  const logLevel: LogLevel = yield select(getLogLevel);
+  setNativeLogLevel(translateLogLevel(logLevel));
+}
+
 export default function* contextSaga(): SagaIterator {
   yield takeLatest(initialize, initContextSaga);
+  yield takeLatest(setLogLevel, setLogLevelSaga);
 }

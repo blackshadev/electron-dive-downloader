@@ -24,6 +24,9 @@ export default function userReadableError(error: unknown): string {
   if (error instanceof Error && axios.isAxiosError(error)) {
     return userReadableAxiosError(error);
   }
+  if (error instanceof Error) {
+    return error.message;
+  }
 
-  return 'Unknown error';
+  return `Unknown error ${error}`;
 }

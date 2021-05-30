@@ -7,6 +7,7 @@ import contextReducer from './divecomputer/context/reducer';
 import readerReducer from './divecomputer/reader/reducer';
 import descriptorReducer from './divecomputer/descriptor/reducer';
 import transportReducer from './divecomputer/transport/reducer';
+import loggingReducer from './logging/reducer';
 import writerReducer from './writer/reducer';
 import persistanceReducer from './persistence/reducer';
 import sagas from './sagas';
@@ -26,6 +27,7 @@ const store = configureStore({
     computers: computersReducer,
     writer: writerReducer,
     persistance: persistanceReducer,
+    logging: loggingReducer,
   },
   middleware: [
     ...getDefaultMiddleware({

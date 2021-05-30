@@ -9,6 +9,7 @@ import descriptorSagas from './divecomputer/descriptor/sagas';
 import transportSagas from './divecomputer/transport/sagas';
 import persistanceSagas from './persistence/sagas';
 import writerSaga from './writer/sagas';
+import { loggingSagas } from './logging/sagas';
 
 export default function* rootSaga(): SagaIterator {
   yield all([
@@ -21,5 +22,6 @@ export default function* rootSaga(): SagaIterator {
     spawn(transportSagas),
     spawn(writerSaga),
     spawn(persistanceSagas),
+    spawn(loggingSagas),
   ]);
 }

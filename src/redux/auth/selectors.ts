@@ -11,8 +11,6 @@ export const serializableAuthSelector = (state: { auth: AuthState }) =>
         : undefined,
   } as PersistedAuthState);
 
-export const errorSelector = (state: { auth: AuthState }) => state.auth.error;
-
 export const isLoggedInSelector = (state: { auth: AuthState }) =>
   state.auth.isLoggedIn;
 

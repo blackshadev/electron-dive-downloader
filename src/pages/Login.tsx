@@ -2,13 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Button from '../components/Button';
-import ErrorRow from '../components/ErrorRow';
 import Input from '../components/Input';
 import InputRow from '../components/InputRow';
 import useInput from '../hooks/input';
 import {
   authenticate,
-  errorSelector,
   getRefreshToken,
   isLoggedInSelector,
   tryToken,
@@ -19,7 +17,6 @@ export default function Login() {
   const dispatch = useDispatch();
   const { value: valueEmail, onChange: changeEmail } = useInput('');
   const { value: valuePassword, onChange: changePassword } = useInput('');
-  const authenticateError = useSelector(errorSelector);
   const isLoggedIn = useSelector(isLoggedInSelector);
   const refreshtoken = useSelector(getRefreshToken);
 
@@ -51,8 +48,6 @@ export default function Login() {
           onChange={changePassword}
         />
       </InputRow>
-
-      {authenticateError && <ErrorRow>{authenticateError}</ErrorRow>}
 
       <Button
         primary

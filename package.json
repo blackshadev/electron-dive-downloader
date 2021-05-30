@@ -51,7 +51,8 @@
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
+      "gatekeeperAssess": false,
+      "category": "public.app-category.utilities"
     },
     "dmg": {
       "contents": [
@@ -76,7 +77,7 @@
       "target": [
         "AppImage"
       ],
-      "category": "Development"
+      "category": "Utility"
     },
     "directories": {
       "app": "src",
