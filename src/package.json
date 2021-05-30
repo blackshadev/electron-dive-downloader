@@ -1,7 +1,7 @@
 {
   "name": "electron-dive-downloader",
   "productName": "electron-dive-downloader",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Dive downloader for electron",
   "main": "./main.prod.js",
   "author": {
@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
-    "libdivecomputerjs": "^0.4.2"
+    "libdivecomputerjs": "0.4.3"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0"
