@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
-    "libdivecomputerjs": "0.4.0"
+    "libdivecomputerjs": "0.3.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0"
