@@ -56,7 +56,7 @@ jobs:
       matrix:
         os:
           # - macos-latest
-          # - windows-latest
+          - windows-latest
           - ubuntu-latest
 
     steps:
