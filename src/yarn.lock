@@ -500,10 +500,10 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-libdivecomputerjs@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/libdivecomputerjs/-/libdivecomputerjs-0.4.1.tgz#73776cdb16103795ed73f9b3b44b1de552190667"
-  integrity sha512-JDpqF0xKVuWeAMzzM6V274/pP5rEhaUSJuu91IHCz2n8a9k2+N22qJuP+xd42L5Wpc2iZ+7IMWuTgt7NyXB1Kw==
+libdivecomputerjs@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/libdivecomputerjs/-/libdivecomputerjs-0.4.2.tgz#03ed5b8ef99e964ec409d60492273996618567c1"
+  integrity sha512-mxX6jjyDLhGeUwSLU+GOgU+gqmQsbTyQnUHBkagw4qSbLnt18Dn8eed3ZIOWnQEL0CKqlX2jW5D4F00gRHPJaw==
   dependencies:
     bindings "^1.5.0"
     cmake-js "^6.1.0"
