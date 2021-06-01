@@ -38,7 +38,7 @@ jobs:
 
       - name: yarn install
         run: |
-          yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+          yarn install --frozen-lockfile --check-files --cache-folder .ycache
 
       - name: yarn test
         run: |
@@ -79,7 +79,7 @@ jobs:
 
       - name: yarn install
         run: |
-          yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+          yarn install --frozen-lockfile --check-files --cache-folder .ycache
 
       - name: publish package
         env:
