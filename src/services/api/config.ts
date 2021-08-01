@@ -1,6 +1,6 @@
-const useProductionService = process.env.NODE_ENV !== 'production';
+const useDevService = process.env.NODE_ENV !== 'production';
 
-export const serviceUrl = useProductionService
+export const serviceUrl = useDevService
   ? 'http://localhost:8000/api'
   : 'https://api.dive.littledev.nl/api';
 

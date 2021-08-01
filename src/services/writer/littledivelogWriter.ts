@@ -41,7 +41,7 @@ export default class LittledivelogWriter implements Writer {
       throw new Error('No computer set');
     }
 
-    await addDive(this.accessToken, this.computer?.id, dive);
+    await addDive(this.accessToken, this.computer.id, dive);
   }
 
   // eslint-disable-next-line class-methods-use-this

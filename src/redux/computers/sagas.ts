@@ -3,15 +3,13 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import getComputersApi from '../../services/api/computers/getComputers';
 import { getAccessToken, loggedin, loggedout } from '../auth';
 import withAccessToken from '../auth/withAccessTokenSaga';
-import { resetComputers, setComputers } from './actions';
-import { getComputers } from './selectors';
+import { refreshComputers, resetComputers, setComputers } from './actions';
 import { IComputer } from './types';
 
 export function* getUserComputerSaga(): SagaIterator {
-  const accesstoken: string = yield select(getAccessToken);
-  const computers: undefined | IComputer[] = yield select(getComputers);
+  const accesstoken: string | undefined = yield select(getAccessToken);
 
-  if (computers !== undefined) {
+  if (accesstoken === null) {
     return;
   }
 
@@ -29,6 +27,6 @@ export function* resetComputerSaga(): SagaIterator {
 }
 
 export default function* computerSaga(): SagaIterator {
-  yield takeLatest(loggedin, getUserComputerSaga);
+  yield takeLatest([loggedin, refreshComputers], getUserComputerSaga);
   yield takeLatest(loggedout, resetComputerSaga);
 }

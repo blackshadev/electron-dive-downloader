@@ -9,7 +9,12 @@ import { channel, SagaIterator } from 'redux-saga';
 import { put, select, take, takeLatest } from 'redux-saga/effects';
 import DiveParser from '../../../services/parsing/diveParser';
 import DiveSampleParser from '../../../services/parsing/diveSampleParser';
-import { findComputer, getComputers, IComputer } from '../../computers';
+import {
+  findComputer,
+  getComputers,
+  IComputer,
+  refreshComputers,
+} from '../../computers';
 import { addDive } from '../../dive/actions';
 import { getContext } from '../context';
 import { selectedDescriptorSelector } from '../descriptor';
@@ -39,6 +44,8 @@ function setComputersLastFingerprint(
 }
 
 export function* readSaga(): SagaIterator {
+  yield put(refreshComputers());
+
   const deviceUpdatesChannel = channel();
   const context: Context = yield select(getContext);
   const descriptor: Descriptor = yield select(selectedDescriptorSelector);

@@ -43,7 +43,6 @@ export default class FileWriter implements Writer {
       computer: this.computer,
       dives: this.dives,
     };
-    console.log('writing file');
     await fs.promises.writeFile(this.fileName, JSON.stringify(packaged));
   }
 }

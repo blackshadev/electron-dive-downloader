@@ -24,9 +24,9 @@ interface IDiveInput {
   samples: any[];
 }
 
-function convertDive(computer: number, dive: Dive): IDiveInput {
+function convertDive(computer_id: number, dive: Dive): IDiveInput {
   return {
-    computer_id: computer,
+    computer_id,
     date: dive.date,
     divetime: dive.divetime,
     max_depth: dive.maxDepth ?? 0,
