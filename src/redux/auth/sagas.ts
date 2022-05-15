@@ -18,9 +18,7 @@ import { ICredentials } from './types';
 import { getAccessToken, getRefreshToken } from './selectors';
 import { loadPersistedState } from '../persistence';
 import { requestAccessTokenSaga } from './withAccessTokenSaga';
-import userReadableError from '../../services/userReadableError';
-import { error } from '../logging';
-import { withErrorHandling } from '../error/withErrorHandler';
+import withErrorHandling from '../error/withErrorHandler';
 
 export function* authenticateSaga(
   action: PayloadAction<ICredentials>
