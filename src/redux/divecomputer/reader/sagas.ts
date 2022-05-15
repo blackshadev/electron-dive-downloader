@@ -16,6 +16,7 @@ import {
   refreshComputers,
 } from '../../computers';
 import { addDive } from '../../dive/actions';
+import withErrorHandling from '../../error/withErrorHandler';
 import { getContext } from '../context';
 import { selectedDescriptorSelector } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
@@ -128,5 +129,5 @@ export function* readSaga(): SagaIterator {
 }
 
 export default function* deviceSaga(): SagaIterator {
-  yield takeLatest(readStart, readSaga);
+  yield takeLatest(readStart, withErrorHandling(readSaga, 'reader'));
 }

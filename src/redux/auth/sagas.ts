@@ -20,34 +20,28 @@ import { loadPersistedState } from '../persistence';
 import { requestAccessTokenSaga } from './withAccessTokenSaga';
 import userReadableError from '../../services/userReadableError';
 import { error } from '../logging';
+import { withErrorHandling } from '../error/withErrorHandler';
 
 export function* authenticateSaga(
   action: PayloadAction<ICredentials>
 ): SagaIterator {
-  try {
-    const {
-      refresh_token: refreshToken,
-      access_token: accessToken,
-    }: { refresh_token: string; access_token: string } = yield call(
-      authenicateApi,
-      action.payload
-    );
+  const {
+    refresh_token: refreshToken,
+    access_token: accessToken,
+  }: { refresh_token: string; access_token: string } = yield call(
+    authenicateApi,
+    action.payload
+  );
 
-    yield put(setAccessToken(accessToken));
-    yield put(setRefreshToken(refreshToken));
-    yield put(loggedin());
-  } catch (err) {
-    yield put(error({ source: 'auth', message: userReadableError(err) }));
-  }
+  yield put(setAccessToken(accessToken));
+  yield put(setRefreshToken(refreshToken));
+  yield put(loggedin());
 }
 
 export function* logoutSaga(): SagaIterator {
   const accessToken: string = yield select(getAccessToken);
-  try {
-    yield call(logoutApi, accessToken);
-  } catch (err) {
-    yield put(error({ source: 'auth', message: userReadableError(err) }));
-  }
+  yield call(logoutApi, accessToken);
+
   yield put(loggedout());
 }
 
@@ -57,12 +51,8 @@ export function* authenticateWithRefreshTokenSage(): SagaIterator {
     return;
   }
 
-  try {
-    yield call(requestAccessTokenSaga);
-    yield put(loggedin());
-  } catch (err) {
-    yield put(error({ source: 'auth', message: userReadableError(err) }));
-  }
+  yield call(requestAccessTokenSaga);
+  yield put(loggedin());
 }
 
 export function* loadAuthState(
@@ -73,18 +63,20 @@ export function* loadAuthState(
   if (!action.payload.auth) {
     return;
   }
-  try {
-    yield put(setAccessToken(action.payload.auth.accessToken));
-    yield put(setRefreshToken(action.payload.auth.refreshToken));
-    yield call(authenticateWithRefreshTokenSage);
-  } catch (err) {
-    yield put(error({ source: 'auth', message: userReadableError(err) }));
-  }
+  yield put(setAccessToken(action.payload.auth.accessToken));
+  yield put(setRefreshToken(action.payload.auth.refreshToken));
+  yield call(authenticateWithRefreshTokenSage);
 }
 
 export default function* authenticationSaga(): SagaIterator {
-  yield takeLatest(authenticate, authenticateSaga);
-  yield takeLatest(logout, logoutSaga);
-  yield takeLatest(loadPersistedState, loadAuthState);
-  yield takeLatest(tryToken, authenticateWithRefreshTokenSage);
+  yield takeLatest(authenticate, withErrorHandling(authenticateSaga, 'auth'));
+  yield takeLatest(logout, withErrorHandling(logoutSaga, 'auth'));
+  yield takeLatest(
+    loadPersistedState,
+    withErrorHandling(loadAuthState, 'auth')
+  );
+  yield takeLatest(
+    tryToken,
+    withErrorHandling(authenticateWithRefreshTokenSage, 'auth')
+  );
 }

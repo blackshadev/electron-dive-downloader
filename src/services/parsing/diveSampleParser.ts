@@ -144,10 +144,21 @@ export default class DiveSampleParser {
 
   private addPressure(pressureValue: { tank: number; value: number }) {
     this.workingSample.Pressure = this.workingSample.Pressure ?? [];
-    this.workingSample.Pressure.push({
-      Pressure: pressureValue.value,
-      Tank: pressureValue.tank,
-    });
+    const index = this.workingSample.Pressure.findIndex(
+      (pressure) => pressure.Tank === pressureValue.tank
+    );
+
+    if (index > -1) {
+      this.workingSample.Pressure[index] = {
+        Pressure: pressureValue.value,
+        Tank: pressureValue.tank,
+      };
+    } else {
+      this.workingSample.Pressure.push({
+        Pressure: pressureValue.value,
+        Tank: pressureValue.tank,
+      });
+    }
 
     this.addPressureToAggregate(pressureValue);
   }
