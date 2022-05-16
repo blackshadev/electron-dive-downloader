@@ -8,7 +8,7 @@ import {
   getSelectedTransport,
   getTransportType,
 } from '../redux/divecomputer/transport';
-import DownloadIcon from '../../assets/icons/fa/download-solid.svg';
+import { ReactComponent as DownloadIcon } from '../../assets/icons/fa/download-solid.svg';
 import IconButton from '../components/IconButton';
 import {
   getDeviceError,

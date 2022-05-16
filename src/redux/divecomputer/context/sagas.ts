@@ -1,6 +1,5 @@
-import { channel } from '@redux-saga/core';
+import { channel, SagaIterator } from '@redux-saga/core';
 import { put, select, take, takeLatest } from '@redux-saga/core/effects';
-import { SagaIterator } from '@redux-saga/types';
 import { Context, LogLevel as DCLogLevel } from 'libdivecomputerjs';
 import { initialize } from '../../global/actions';
 import { getLogLevel, log, LogLevel, setLogLevel } from '../../logging';

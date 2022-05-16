@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import UserInformation from '../components/UserInformation';
 import { isLoggedInSelector, logout } from '../redux/auth';
 
 export default function User() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(isLoggedInSelector);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isLoggedIn) {
-      history.replace('/login');
+      navigate('/login', { replace: true });
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn, navigate]);
 
   return (
     <>

@@ -1,10 +1,11 @@
 import React from 'react';
+
 import { Provider } from 'react-redux';
 import {
   HashRouter as Router,
-  Switch,
   Route,
-  Redirect,
+  Routes,
+  Navigate,
 } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Fonts from './Fonts';
@@ -48,15 +49,13 @@ export default function App() {
 
         <Router>
           <MainLayout>
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/user" component={User} />
-              <Route path="/log" component={Log} />
-              <Route path="/download" component={Download} />
-              <Route exact path="/">
-                <Redirect to="/download" />
-              </Route>
-            </Switch>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/user" element={<User />} />
+              <Route path="/log" element={<Log />} />
+              <Route path="/download" element={<Download />} />
+              <Route path="/" element={<Navigate replace to="/download" />} />
+            </Routes>
           </MainLayout>
         </Router>
       </Provider>

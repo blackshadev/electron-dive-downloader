@@ -52,3 +52,6 @@ export default function InputRow({
     </StyledRow>
   );
 }
+InputRow.defaultProps = {
+  className: undefined,
+};

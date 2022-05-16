@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import electron from 'electron';
+import React, { useCallback } from 'react';
+import { ipcRenderer } from 'electron';
 import path from 'path';
 import Button from './Button';
 import Input from './Input';
@@ -17,35 +17,23 @@ export default function SaveFileInput({
   onChange,
   value,
 }: FileInputProps) {
-  const [filePathValue, setFilePathValue] = useState(value);
+  const openDialog = useCallback(async () => {
+    const defaultPath = value ? path.resolve(value) : undefined;
+    const dialogResult = (await ipcRenderer.invoke('showSaveDialog', {
+      title,
+      defaultPath,
+    })) as Electron.SaveDialogReturnValue;
 
-  async function openDialog() {
-    const browserWindow = electron.remote.getCurrentWindow();
-    const dialogResult = await electron.remote.dialog.showSaveDialog(
-      browserWindow,
-      {
-        title,
-        defaultPath: filePathValue ? path.resolve(filePathValue) : undefined,
-        filters: [
-          { name: 'JSON Files', extensions: ['json'] },
-          { name: 'All Files', extensions: ['*'] },
-        ],
-        properties: ['createDirectory', 'showOverwriteConfirmation'],
-      }
-    );
-
-    const newValue = dialogResult.filePath;
-    if (!dialogResult.canceled && newValue !== undefined) {
-      setFilePathValue(newValue);
-      if (onChange) {
-        onChange(newValue);
-      }
+    if (dialogResult.canceled) {
+      return;
     }
-  }
+
+    onChange?.(dialogResult.filePath ?? '');
+  }, [title, value, onChange]);
 
   return (
     <>
-      <Input name={name} id={name} value={filePathValue} readOnly />
+      <Input name={name} id={name} value={value} readOnly />
       <Button
         outline
         onClick={(e) => {

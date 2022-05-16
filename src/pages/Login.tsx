@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import Button from '../components/Button';
 import Input from '../components/Input';
 import InputRow from '../components/InputRow';
@@ -13,7 +13,7 @@ import {
 } from '../redux/auth';
 
 export default function Login() {
-  const router = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { value: valueEmail, onChange: changeEmail } = useInput('');
   const { value: valuePassword, onChange: changePassword } = useInput('');
@@ -22,11 +22,11 @@ export default function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.replace('/');
+      navigate('/', { replace: true });
     } else if (refreshtoken) {
       dispatch(tryToken());
     }
-  }, [dispatch, isLoggedIn, router, refreshtoken]);
+  }, [dispatch, isLoggedIn, navigate, refreshtoken]);
 
   return (
     <form>
