@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import IconButton from '../IconButton';
 import { ReactComponent as RefreshIcon } from '../../../assets/icons/fa/sync-alt-solid.svg';

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 import Button from './Button';

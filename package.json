@@ -1,5 +1,5 @@
 {
-  "name": "electron-dive-downloader",
+  "name": "electron-dive-downloader-main",
   "description": "Download dives from any divecomputer with an electron app",
   "productName": "DiveDownloader",
   "main": "./src/main/main.ts",
@@ -110,11 +110,10 @@
   "keywords": [],
   "homepage": "https://littledev.nl",
   "jest": {
-    "testURL": "http://localhost/",
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
-      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
-    },
+    "moduleDirectories": [
+      "node_modules",
+      "release/app/node_modules"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx",
@@ -122,13 +121,24 @@
       "tsx",
       "json"
     ],
-    "moduleDirectories": [
-      "node_modules",
-      "release/app/node_modules"
-    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "\\.svg": "<rootDir>/.erb/mocks/svgMock.js"
+    },
     "setupFiles": [
-      "./.erb/scripts/CheckBuildsExist.js"
-    ]
+      "./.erb/scripts/check-build-exists.ts"
+    ],
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "url": "http://localhost/"
+    },
+    "testPathIgnorePatterns": [
+      "release/app/dist"
+    ],
+    "transform": {
+      "\\.(ts|tsx|js|jsx)$": "ts-jest"
+    }
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.6",
@@ -188,6 +198,7 @@
     "husky": "^8.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "lint-staged": "^12.4.1",
     "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
@@ -203,6 +214,7 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.24",
     "terser-webpack-plugin": "^5.3.1",
+    "ts-jest": "^28.0.2",
     "ts-loader": "^9.3.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4",

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
