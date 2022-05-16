@@ -25,7 +25,7 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.handle('showSaveDialog', async (event, { title, defaultPath }) => {
+ipcMain.handle('showSaveDialog', async (_, { title, defaultPath }) => {
   if (!mainWindow) {
     throw new Error('Unable to showSaveDialog , window not initialized.');
   }

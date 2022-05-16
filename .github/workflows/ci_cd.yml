@@ -44,7 +44,6 @@ jobs:
         run: |
           yarn build
           yarn lint
-          yarn tsc
           yarn test
 
   release:
@@ -66,7 +65,7 @@ jobs:
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v1
         with:
-          node-version: 15
+          node-version: 16.15
 
       - name: cache-node_modules
         id: cache-node_modules
