@@ -43,7 +43,7 @@
       "node_modules/",
       "package.json"
     ],
-    "afterSign": ".erb/scripts/Notarize.js",
+    "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": [
         "dmg"
