@@ -1,5 +1,5 @@
 import { call, select, put } from '@redux-saga/core/effects';
-import { SagaIterator } from '@redux-saga/types';
+import { SagaIterator } from '@redux-saga/core';
 import axios from 'axios';
 import { requestAccessToken } from '../../services/api/auth/authentication';
 import { setAccessToken } from './actions';
@@ -28,7 +28,7 @@ export default function* withAccessToken<
   const currentAccessToken: string = yield select(getAccessToken);
 
   function getParameters(accessToken: string): Parameters<Fn> {
-    return ([accessToken, ...fnArgs] as unknown) as Parameters<Fn>;
+    return [accessToken, ...fnArgs] as unknown as Parameters<Fn>;
   }
 
   try {

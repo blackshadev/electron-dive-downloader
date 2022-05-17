@@ -1,5 +1,5 @@
 import { put, takeLatest } from '@redux-saga/core/effects';
-import { SagaIterator } from '@redux-saga/types';
+import { SagaIterator } from '@redux-saga/core';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Descriptor } from 'libdivecomputerjs';
 import { initialize } from '../../global/actions';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InputRow from '../components/InputRow';
 import Label from '../components/Label';
@@ -8,7 +7,7 @@ import {
   getSelectedTransport,
   getTransportType,
 } from '../redux/divecomputer/transport';
-import DownloadIcon from '../../assets/icons/fa/download-solid.svg';
+import { ReactComponent as DownloadIcon } from '../../assets/icons/fa/download-solid.svg';
 import IconButton from '../components/IconButton';
 import {
   getDeviceError,

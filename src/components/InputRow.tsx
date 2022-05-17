@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import styled from 'styled-components';
 import styling from '../styling';
 import Label from './Label';
@@ -38,7 +38,7 @@ export default function InputRow({
   children,
   className,
 }: PropsWithChildren<{
-  label: string | React.ReactNode;
+  label: string | ReactNode;
   name: string;
   className?: string;
 }>) {
@@ -52,3 +52,6 @@ export default function InputRow({
     </StyledRow>
   );
 }
+InputRow.defaultProps = {
+  className: undefined,
+};

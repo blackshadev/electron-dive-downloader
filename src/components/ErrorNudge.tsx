@@ -1,8 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
 import styling from '../styling';
 import IconButton from './IconButton';
-import CloseIcon from '../../assets/icons/fa/times-solid.svg';
+import { ReactComponent as CloseIcon } from '../../assets/icons/fa/times-solid.svg';
 
 export const ErrorNudgeDiv = styled.div`
   display: flex;

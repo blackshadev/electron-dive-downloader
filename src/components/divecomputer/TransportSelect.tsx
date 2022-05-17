@@ -1,5 +1,4 @@
 import { Transport } from 'libdivecomputerjs';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { defaultFormProps, FormProps } from '../../helpers/formProps';
 import { supportedTransports } from '../../redux/divecomputer/descriptor';

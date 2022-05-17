@@ -1,5 +1,5 @@
 import { debounce, put, select, takeLatest } from '@redux-saga/core/effects';
-import { SagaIterator } from '@redux-saga/types';
+import { SagaIterator } from '@redux-saga/core';
 import {
   fetchPersistedState,
   loadPersistedState,
