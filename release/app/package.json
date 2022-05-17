@@ -1,7 +1,7 @@
 {
   "name": "electron-dive-downloader",
   "productName": "electron-dive-downloader",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Dive downloader for electron",
   "main": "./dist/main/main.js",
   "author": {

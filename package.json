@@ -78,8 +78,7 @@
       "target": [
         "AppImage",
         "deb",
-        "rpm",
-        "snap"
+        "rpm"
       ],
       "category": "Utility"
     },
