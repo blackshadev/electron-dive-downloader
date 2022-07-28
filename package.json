@@ -2,6 +2,7 @@
   "name": "electron-dive-downloader-main",
   "description": "Download dives from any divecomputer with an electron app",
   "productName": "DiveDownloader",
+  "version": "0.0.8",
   "main": "./src/main/main.ts",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
