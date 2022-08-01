@@ -181,7 +181,7 @@
           "config": {
             "repository": {
               "owner": "blackshadev",
-              "name": "elecron-dive-downloader"
+              "name": "electron-dive-downloader"
             },
             "draft": true
           }
