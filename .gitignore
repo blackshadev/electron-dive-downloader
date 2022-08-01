@@ -20,7 +20,6 @@ coverage
 .lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
 .eslintcache
 
 # Dependency directory
@@ -31,23 +30,6 @@ node_modules
 .DS_Store
 
 .webpack
-
-# App packaged
-release/**/*
-!release/app
-!release/app/package.json
-!release/app/package-lock.json
-!release/app/yarn.lock
-src/main.prod.js
-src/main.prod.js.map
-src/renderer.prod.js
-src/renderer.prod.js.map
-src/style.css
-src/style.css.map
-dist
-dll
-main.js
-main.js.map
 
 .idea
 npm-debug.log.*

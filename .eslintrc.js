@@ -45,9 +45,4 @@ module.exports = {
     tsconfigRootDir: __dirname,
     createDefaultProgram: true,
   },
-  // settings: {
-  //   'import/parsers': {
-  //     '@typescript-eslint/parser': ['.ts', '.tsx'],
-  //   },
-  // },
 };
