@@ -7,9 +7,10 @@ module.exports = {
     'prettier',
     'plugin:react/jsx-runtime',
     'plugin:promise/recommended',
+    'plugin:react-hooks/recommended'
   ],
 
-  plugins: ['@typescript-eslint', 'prettier', 'react', 'promise'],
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'promise', 'react-hooks'],
 
   rules: {
     'no-restricted-syntax': [
