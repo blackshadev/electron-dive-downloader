@@ -50,9 +50,7 @@ export default function Log() {
         <Select
           value={loglevel}
           onChange={(e) => {
-            dispatch(
-              setLogLevel(LogLevel[e.target.value as keyof typeof LogLevel])
-            );
+            dispatch(setLogLevel(e.target.value as unknown as LogLevel));
           }}
         >
           {getAllLogLevelKeys().map((l) => (

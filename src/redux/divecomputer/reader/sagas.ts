@@ -69,7 +69,7 @@ export function* readSaga(): SagaIterator {
   reader.setContext(context);
   reader.setDescriptor(descriptor);
   reader.setTransport(transport.original);
-  reader.onDevice(() => {});
+  reader.onDevice(() => {/**/});
 
   let devtime = 0;
   let systime = 0n;

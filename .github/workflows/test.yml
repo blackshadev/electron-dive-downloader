@@ -3,10 +3,6 @@ name: CI/CD
 on:
   pull_request:
   push:
-    branches:
-      - master
-    tags:
-      - 'v*'
 
 jobs:
   test:
@@ -19,16 +15,16 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.15
 
       - name: cache-node_modules
         id: cache-node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -41,7 +37,6 @@ jobs:
 
       - name: yarn test
         run: |
-          yarn build
           yarn lint
           yarn test
 
@@ -53,8 +48,6 @@ jobs:
     strategy:
       matrix:
         os:
-          # - macos-latest
-          - windows-latest
           - ubuntu-latest
 
     steps:
@@ -83,4 +76,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn package:publish
+          yarn make

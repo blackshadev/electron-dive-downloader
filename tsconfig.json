@@ -24,12 +24,9 @@
     "outDir": "release/app/dist"
   },
   "exclude": [
-    "test",
     "release/build",
     "src/main.prod.js",
     "src/renderer.prod.js",
-    ".erb.bk/dll",
     "release/app/dist",
-    ".erb/dll"
   ]
 }

@@ -30,6 +30,8 @@ node_modules
 # OSX
 .DS_Store
 
+.webpack
+
 # App packaged
 release/**/*
 !release/app
@@ -52,3 +54,5 @@ npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+
+out/

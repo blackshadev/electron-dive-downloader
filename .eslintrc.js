@@ -1,17 +1,42 @@
 module.exports = {
-  extends: 'erb',
+  parser: '@typescript-eslint/parser',
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'plugin:react/jsx-runtime',
+    'plugin:promise/recommended',
+  ],
+
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'promise'],
+
   rules: {
-    // A temporary hack related to IDE not resolving correct package.json
-    'import/no-extraneous-dependencies': 'off',
     'no-restricted-syntax': [
       'error',
       'ForInStatement',
       'LabeledStatement',
       'WithStatement',
     ],
-    'import/no-unresolved': 'error',
-    'react/react-in-jsx-scope': 'off',
-    'class-methods-use-this': 'off',
+  },
+  overrides: [
+    {
+      files: ['*.test.tsx'],
+      plugins: ['jest'],
+      extends: ['plugin:jest/recommended'],
+    },
+    {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        'react/react-in-jsx-scope': 'off',
+      },
+    },
+  ],
+  env: {
+    node: true,
+    browser: true,
+    es6: true,
   },
   parserOptions: {
     ecmaVersion: 2020,
@@ -20,16 +45,9 @@ module.exports = {
     tsconfigRootDir: __dirname,
     createDefaultProgram: true,
   },
-  settings: {
-    'import/resolver': {
-      // See https://github.com/benmosher/eslint-plugin-import/issues/1396#issuecomment-575727774 for line below
-      node: {},
-      webpack: {
-        config: require.resolve('./.erb/configs/webpack.config.eslint.ts'),
-      },
-    },
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
-  },
+  // settings: {
+  //   'import/parsers': {
+  //     '@typescript-eslint/parser': ['.ts', '.tsx'],
+  //   },
+  // },
 };
