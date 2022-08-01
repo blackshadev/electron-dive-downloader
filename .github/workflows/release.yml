@@ -37,5 +37,5 @@ jobs:
           yarn install --frozen-lockfile --check-files --cache-folder .ycache
       - name: Build and publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: yarn publish
