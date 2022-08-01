@@ -176,6 +176,9 @@
       "publishers": [
         {
           "name": "@electron-forge/publisher-github",
+          "platforms": [
+            "linux", "win32"
+          ],
           "config": {
             "repository": {
               "owner": "blackshadev",
