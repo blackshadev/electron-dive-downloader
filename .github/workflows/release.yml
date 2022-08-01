@@ -5,7 +5,7 @@ on:
       - 'v*'
 
 jobs:
-  test:
+  Release:
     runs-on: ${{ matrix.os }}
 
     strategy:

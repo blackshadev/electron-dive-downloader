@@ -173,15 +173,15 @@
           "unpack": true
         }
       },
-      "publisher": [
+      "publishers": [
         {
           "name": "@electron-forge/publisher-github",
           "config": {
             "repository": {
               "owner": "blackshadev",
-              "name": "elecron-dive-downloader",
-              "draft": true
-            }
+              "name": "elecron-dive-downloader"
+            },
+            "draft": true
           }
         }
       ],
