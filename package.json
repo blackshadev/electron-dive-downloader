@@ -11,7 +11,8 @@
     "start": "electron-forge start",
     "test": "jest",
     "prepare": "husky install",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -176,9 +177,6 @@
       "publishers": [
         {
           "name": "@electron-forge/publisher-github",
-          "platforms": [
-            "linux", "win32"
-          ],
           "config": {
             "repository": {
               "owner": "blackshadev",
@@ -197,10 +195,7 @@
           "name": "@electron-forge/maker-dmg"
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+          "name": "@electron-forge/maker-zip"
         },
         {
           "name": "@electron-forge/maker-deb",
