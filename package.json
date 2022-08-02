@@ -2,7 +2,7 @@
   "name": "dive-downloader",
   "description": "Download dives from any divecomputer with an electron app",
   "productName": "dive-downloader",
-  "version": "0.0.9",
+  "version": "0.0.9-debug",
   "main": ".webpack/main",
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -171,9 +171,8 @@
         ]
       ],
       "packagerConfig": {
-        "asar": {
-          "unpack": true
-        }
+        "asar": true,
+        "extraResource": ["./node_modules/libdivecomputerjs/deps/lib"]
       },
       "publishers": [
         {
