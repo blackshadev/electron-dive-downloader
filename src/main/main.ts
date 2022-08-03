@@ -13,7 +13,6 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import MenuBuilder from './menu';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require

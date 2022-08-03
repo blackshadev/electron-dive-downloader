@@ -132,7 +132,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^5.0.1",
     "history": "^5.3.0",
-    "libdivecomputerjs": "^0.4.3",
+    "libdivecomputerjs": "^0.5.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
@@ -149,9 +149,6 @@
   "config": {
     "forge": {
       "plugins": [
-        [
-          "@electron-forge/plugin-auto-unpack-natives"
-        ],
         [
           "@electron-forge/plugin-webpack",
           {
@@ -171,8 +168,10 @@
         ]
       ],
       "packagerConfig": {
-        "asar": true,
-        "extraResource": ["./node_modules/libdivecomputerjs/deps/lib"]
+        "prune": false,
+        "asar": {
+          "unpack": "**/node_modules/libdivecomputerjs/**"
+        }
       },
       "publishers": [
         {
@@ -196,14 +195,6 @@
         },
         {
           "name": "@electron-forge/maker-zip"
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ]
     }
