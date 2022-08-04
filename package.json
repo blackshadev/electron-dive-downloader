@@ -170,7 +170,8 @@
       ],
       "packagerConfig": {
         "asar": {
-          "unpack": "**/node_modules/libdivecomputerjs/**"
+          "unpack": "**/native_modules/**",
+          "unpackDir": ".webpack/renderer/native_modules"
         }
       },
       "publishers": [
@@ -195,12 +196,6 @@
         },
         {
           "name": "@electron-forge/maker-zip"
-        },
-        {
-          "name": "@electron-forge/maker-deb"
-        },
-        {
-          "name": "@electron-forge/maker-rpm"
         }
       ]
     }
