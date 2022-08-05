@@ -7673,10 +7673,10 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libdivecomputerjs@^0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/libdivecomputerjs/-/libdivecomputerjs-0.5.2.tgz#5a2aa3688a6647e870c83b329fb6836e167ea9a7"
-  integrity sha512-sezEnmVU5JSz0DdT6VF6lK8H5zTlPfaFmlv3gNkZeRJyEo6m2Gg7tN/dc7WQpLsweNo4XkOV4JRl/XPJBBIXvg==
+libdivecomputerjs@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/libdivecomputerjs/-/libdivecomputerjs-0.5.3.tgz#d7edff0f4f3af3f6de8e121ca1e47cae1ad29d44"
+  integrity sha512-r595AuqaN/8y59MVeqYZVfgeNq+gdLSuyC6q6X0xc07i39LhuMSNFg7bEDseVmt6l4GaX3y9oCDepnUVbLYLPw==
   dependencies:
     bindings "^1.5.0"
     cmake-js "^6.1.0"
