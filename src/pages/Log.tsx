@@ -32,12 +32,20 @@ const LogLines = styled.div`
 `;
 
 const LogControls = styled.div`
+  display: flex;
   margin-bottom: ${styling.spacing.sm};
   padding-bottom: ${styling.spacing.sm};
   border-bottom: 1px solid ${styling.colors.lightGrey};
+
+  ${Select} {
+    flex: 1;
+  }
 `;
 
-const LogViewer = styled.div``;
+const LogViewer = styled.div`
+  min-height: 300px;
+  min-width: 300px;
+`;
 
 export default function Log() {
   const lines = useSelector(getLogLines);

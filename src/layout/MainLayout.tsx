@@ -8,15 +8,25 @@ import styling from '../styling';
 import ApplicationErrors from '../components/ApplicationErrors';
 import { ErrorNudgeDiv } from '../components/ErrorNudge';
 
-const MainContainer = styled.main`
+const MainWrapper = styled.main`
   position: absolute;
   top: 0;
   display: flex;
   height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+
+const MainContainer = styled.section`
+  display: flex;
   flex-direction: column;
   padding: ${styling.spacing.md};
   padding-bottom: ${styling.spacing.xl};
   box-sizing: border-box;
+  max-width: 459px;
 `;
 
 const Nav = styled.nav`
@@ -63,7 +73,9 @@ export default function MainLayout({ children }: PropsWithChildren<unknown>) {
 
   return (
     <>
-      <MainContainer>{children}</MainContainer>
+      <MainWrapper>
+        <MainContainer>{children}</MainContainer>
+      </MainWrapper>
       <ApplicationErrorSection>
         <ApplicationErrors />
       </ApplicationErrorSection>
