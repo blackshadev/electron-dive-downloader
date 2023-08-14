@@ -1,15 +1,15 @@
 import axios, { AxiosError } from 'axios';
 
-function userReadableAxiosError(error: AxiosError): string {
+function userReadableAxiosError(error: AxiosError<{ errors: string[] }|{message: string}>): string {
   if (!error.response) {
     return error.message;
   }
 
-  if (error.response.data?.errors) {
+  if ('errors' in error.response.data) {
     return Object.values(error.response.data.errors).join('\n');
   }
 
-  if (error.response.data?.message) {
+  if ('message' in error.response.data) {
     return error.response.data.message;
   }
 
