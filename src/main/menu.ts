@@ -7,11 +7,8 @@ export default class MenuBuilder {
     this.mainWindow = mainWindow;
   }
 
-  buildMenu(): Menu {
-    if (
-      process.env.NODE_ENV === 'development' ||
-      process.env.DEBUG_PROD === 'true'
-    ) {
+  public buildMenu(): Menu {
+    if (this.isDev()) {
       this.setupDevelopmentEnvironment();
     }
 
@@ -20,13 +17,22 @@ export default class MenuBuilder {
         ? this.buildDarwinTemplate()
         : this.buildDefaultTemplate();
 
+    if (this.isDev()) {
+      template.push({
+        label: 'reload',
+        click(_, browser) {
+          browser?.reload();
+        }
+      })
+    }
+
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 
     return menu;
   }
 
-  setupDevelopmentEnvironment(): void {
+  private setupDevelopmentEnvironment(): void {
     this.mainWindow.webContents.on('context-menu', (_, props) => {
       const { x, y } = props;
 
@@ -41,11 +47,16 @@ export default class MenuBuilder {
     });
   }
 
-  buildDarwinTemplate(): MenuItemConstructorOptions[] {
+  private buildDarwinTemplate(): MenuItemConstructorOptions[] {
     return [];
   }
 
-  buildDefaultTemplate() {
+  private buildDefaultTemplate(): MenuItemConstructorOptions[] {
     return [];
+  }
+
+  private isDev(): boolean {
+    return process.env.NODE_ENV === 'development' ||
+      process.env.DEBUG_PROD === 'true'
   }
 }

@@ -49,7 +49,7 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 480,
+    width: isDebug ? 1080 : 480,
     height: 510,
     icon: getAssetPath('icon.png'),
     webPreferences: {
@@ -79,20 +79,6 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  // const cspConnectSrc = ["'self'", serviceOrigin];
-  // const cspDefaultSrc = ["'self'", 'data:', "'unsafe-inline'"];
-  // if (isDebug) {
-  //   cspDefaultSrc.push("'unsafe-eval'")
-  // }
-
-  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-  //   callback({
-  //     responseHeaders: {
-  //       ...details.responseHeaders,
-  //       'Content-Security-Policy': [`default-src ${cspDefaultSrc.join(' ')}; connect-src ${cspConnectSrc.join(' ')}`]
-  //     }
-  //   })
-  // })
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
