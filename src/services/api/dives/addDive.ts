@@ -21,7 +21,7 @@ interface IDiveInput {
     oxygen?: number;
   }[];
   computer_id: number;
-  samples: any[];
+  samples: object[];
 }
 
 function convertDive(computer_id: number, dive: Dive): IDiveInput {

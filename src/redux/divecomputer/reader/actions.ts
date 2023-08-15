@@ -1,8 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
-import { DeviceInfo, Progress, ReadingState } from './types';
+import { DeviceInfo, Progress } from './types';
 
 export const setReadProgress = createAction<Progress>('reader.setProgress');
-export const setReaderState = createAction<ReadingState>('reader.setState');
+export const readerFinished = createAction('reader.finished');
+export const readerStarted = createAction('reader.started');
+export const readerErrored = createAction('reader.errored');
 export const receivedDeviceInfo = createAction<DeviceInfo>(
   'reader.receivedDeviceInfo'
 );

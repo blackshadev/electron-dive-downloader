@@ -49,10 +49,8 @@ export default function* withAccessToken<
 }
 
 export function* execWithAccessToken(
-  cb: (accessToken: string) => any
+  cb: (accessToken: string) => unknown
 ): SagaIterator {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-
   const currentAccessToken: string = yield select(getAccessToken);
   try {
     return yield call(cb, currentAccessToken);

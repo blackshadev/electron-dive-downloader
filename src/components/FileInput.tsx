@@ -35,7 +35,7 @@ export default function SaveFileInput({
     <>
       <Input name={name} id={name} value={value} readOnly />
       <Button
-        outline
+        $outline
         onClick={(e) => {
           e.preventDefault();
           openDialog();

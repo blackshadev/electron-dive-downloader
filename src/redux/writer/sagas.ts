@@ -1,4 +1,4 @@
-import { apply, call, put, select, takeLatest } from '@redux-saga/core/effects';
+import { call, put, select, takeLatest } from '@redux-saga/core/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Descriptor } from 'libdivecomputerjs';
 import { SagaIterator } from 'redux-saga';
@@ -14,6 +14,7 @@ import {
   DeviceInfo,
   getDeviceInfo,
   receivedDeviceInfo,
+  readerFinished,
 } from '../divecomputer/reader';
 import { initialize } from '../global/actions';
 import { loadPersistedState } from '../persistence';
@@ -58,7 +59,7 @@ export function* setWriter(): SagaIterator {
 }
 
 export function* writeDive(action: PayloadAction<Dive>): SagaIterator {
-  yield apply(writer, writer.write, [action.payload]);
+  yield call([writer, writer.write], action.payload);
   yield put(written());
 }
 
@@ -69,7 +70,7 @@ export function* checkDone(): SagaIterator {
     return;
   }
 
-  yield apply(writer, writer.end, []);
+  yield call([writer, writer.end]);
   yield put(writerDone());
 }
 
@@ -95,6 +96,7 @@ export default function* writerSaga(): SagaIterator {
   yield takeLatest(setOutputFilePath, setWriterPath);
   yield takeLatest(addDive, writeDive);
   yield takeLatest(written, checkDone);
+  yield takeLatest(readerFinished, checkDone);
   yield takeLatest(receivedDeviceInfo, updateComputer);
   yield takeLatest(setAccessToken, updateAccessToken);
   yield takeLatest(loadPersistedState, setPreviousState);

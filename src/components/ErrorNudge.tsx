@@ -28,7 +28,7 @@ export default function ErrorNudge({
   return (
     <ErrorNudgeDiv>
       <ErrorMessage>{message}</ErrorMessage>
-      <IconButton flat onClick={onClose}>
+      <IconButton $flat onClick={onClose}>
         <CloseIcon />
       </IconButton>
     </ErrorNudgeDiv>

@@ -15,7 +15,7 @@ export default class FileWriter implements Writer {
 
   private computer?: IComputer = undefined;
 
-  private fileName = '/home/vincent/dives/dive.json';
+  private fileName = '~/dive.json';
 
   public setFilename(fileName: string): void {
     this.fileName = fileName;
@@ -43,6 +43,9 @@ export default class FileWriter implements Writer {
       computer: this.computer,
       dives: this.dives,
     };
+
+    console.log("writing ", this.fileName);
     await fs.promises.writeFile(this.fileName, JSON.stringify(packaged));
+    console.log("written to ", this.fileName);
   }
 }

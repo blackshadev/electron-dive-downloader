@@ -31,20 +31,20 @@ function getSpacing(size?: Size) {
 }
 
 interface IconButtonProps {
-  rounded?: boolean;
-  size?: Size;
+  $rounded?: boolean;
+  $size?: Size;
 }
 
-export default styled(Button)`
-  ${(props: IconButtonProps) => (props.rounded ? `border-radius: 50%;` : '')}
+export default styled(Button)<IconButtonProps>`
+  ${(props) => (props.$rounded ? `border-radius: 50%;` : '')}
 
   line-height: 0;
-  padding: ${(props: IconButtonProps) => getSpacing(props.size)};
+  padding: ${(props) => getSpacing(props.$size)};
 
   svg {
-    ${(props: IconButtonProps) => `
-    width: ${getSize(props.size)};
-    height: ${getSize(props.size)};
+    ${(props) => `
+    width: ${getSize(props.$size)};
+    height: ${getSize(props.$size)};
   `}
   }
 `;

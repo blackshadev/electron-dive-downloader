@@ -22,11 +22,12 @@ import { selectedDescriptorSelector } from '../descriptor';
 import { getSelectedTransport, TransportSource } from '../transport';
 import {
   setReadProgress,
-  setReaderState,
   readStart,
   receivedDeviceInfo,
   setDeviceError,
   resetDeviceError,
+  readerFinished,
+  readerStarted,
 } from './actions';
 import { getNewDivesOnly, getState } from './selectors';
 import { DeviceInfo, ReadingState } from './types';
@@ -62,7 +63,7 @@ export function* readSaga(): SagaIterator {
     throw new Error('No transport selected');
   }
 
-  yield put(setReaderState('reading'));
+  yield put(readerStarted());
   yield put(resetDeviceError());
 
   const reader = new AsyncDeviceReader();
@@ -117,7 +118,8 @@ export function* readSaga(): SagaIterator {
     if (err) {
       deviceUpdatesChannel.put(setDeviceError(err.message));
     }
-    deviceUpdatesChannel.put(setReaderState('none'));
+
+    deviceUpdatesChannel.put(readerFinished());
   });
 
   let state: ReadingState = yield select(getState);

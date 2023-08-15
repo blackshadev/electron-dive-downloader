@@ -119,10 +119,10 @@ export default function Download() {
 
         {!isReading && (
           <IconButton
-            rounded
-            primary
-            size="lg"
-            disabled={
+            $rounded
+            $primary
+            $size="lg"
+            $disabled={
               isReading || !descriptor || !transportType || !transportSource
             }
             onClick={(e) => {

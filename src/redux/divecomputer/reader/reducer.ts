@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
   setReadProgress,
-  setReaderState,
+  readerStarted,
+  readerFinished,
   receivedDeviceInfo,
   setDeviceError,
   resetDeviceError,
@@ -28,8 +29,11 @@ export default createReducer<ReaderState>(intialState, (builder) =>
     .addCase(receivedDeviceInfo, (state, action) => {
       state.deviceInfo = action.payload;
     })
-    .addCase(setReaderState, (state, action) => {
-      state.state = action.payload;
+    .addCase(readerStarted, (state) => {
+      state.state = 'reading'
+    })
+    .addCase(readerFinished, (state) => {
+      state.state = 'none'
     })
     .addCase(setDeviceError, (state, action) => {
       state.error = action.payload;

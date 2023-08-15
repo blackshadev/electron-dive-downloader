@@ -50,7 +50,7 @@ export default function Login() {
       </InputRow>
 
       <Button
-        primary
+        $primary
         onClick={(e) => {
           e.preventDefault();
 

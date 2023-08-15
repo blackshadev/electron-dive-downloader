@@ -8,7 +8,7 @@ export default function RefreshDeviceButton() {
 
   return (
     <IconButton
-      outline
+      $outline
       onClick={(e) => {
         e.preventDefault();
         dispatch(getAvailableTransportSources());
