@@ -9,9 +9,8 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, dialog, session } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import MenuBuilder from './menu';
-import { serviceOrigin } from '../services/api/config';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
@@ -80,20 +79,20 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const cspConnectSrc = ["'self'", serviceOrigin];
-  const cspDefaultSrc = ["'self'", 'data:', "'unsafe-inline'"];
-  if (isDebug) {
-    cspDefaultSrc.push("'unsafe-eval'")
-  }
+  // const cspConnectSrc = ["'self'", serviceOrigin];
+  // const cspDefaultSrc = ["'self'", 'data:', "'unsafe-inline'"];
+  // if (isDebug) {
+  //   cspDefaultSrc.push("'unsafe-eval'")
+  // }
 
-  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
-    callback({
-      responseHeaders: {
-        ...details.responseHeaders,
-        'Content-Security-Policy': [`default-src ${cspDefaultSrc.join(' ')}; connect-src ${cspConnectSrc.join(' ')}`]
-      }
-    })
-  })
+  // session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  //   callback({
+  //     responseHeaders: {
+  //       ...details.responseHeaders,
+  //       'Content-Security-Policy': [`default-src ${cspDefaultSrc.join(' ')}; connect-src ${cspConnectSrc.join(' ')}`]
+  //     }
+  //   })
+  // })
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();

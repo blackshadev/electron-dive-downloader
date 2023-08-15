@@ -156,6 +156,7 @@
         {
           "name": "@electron-forge/plugin-webpack",
           "config": {
+            "devContentSecurityPolicy": "default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:; connect-src 'self' https://api.dive.littledev.nl https://api.littledev.local",
             "mainConfig": "./webpack/webpack.main.config.js",
             "renderer": {
               "nodeIntegration": true,
