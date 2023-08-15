@@ -2,7 +2,7 @@
   "name": "dive-downloader",
   "description": "Download dives from any divecomputer with an electron app",
   "productName": "dive-downloader",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": ".webpack/main",
   "scripts": {
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
@@ -96,7 +96,7 @@
     "@typescript-eslint/parser": "^6.4.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "css-loader": "^6.7.1",
-    "electron": "^19.0.10",
+    "electron": "^26.0.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-compat": "^4.0.2",
