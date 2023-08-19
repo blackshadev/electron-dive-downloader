@@ -2,9 +2,10 @@ import { createSelector } from 'reselect';
 import { compareDescriptor, descriptorId } from './helpers';
 import { DescriptorState } from './types';
 
-export const allDescriptorsSelector = (state: {
-  descriptors: DescriptorState;
-}) => state.descriptors.all.slice().sort(compareDescriptor);
+export const allDescriptorsSelector = createSelector(
+  (state: { descriptors: DescriptorState }) => state.descriptors.all,
+  (descriptors) => descriptors.slice().sort(compareDescriptor)
+);
 
 export const selectedDescriptorSelector = (state: {
   descriptors: DescriptorState;

@@ -1,4 +1,4 @@
-import { Sample, SampleType } from 'libdivecomputerjs';
+import { Sample, SampleEventType, SampleType } from 'libdivecomputerjs';
 import { ISample } from '../../redux/dive';
 
 interface ISampleAggregates {
@@ -117,10 +117,17 @@ export default class DiveSampleParser {
         this.addNumerical(sample.type, sample.value);
         break;
       case SampleType.Deco:
-        this.workingSample.Deco = sample.value;
+        this.workingSample.Deco = {
+          Depth: sample.value.depth,
+          Time: sample.value.time,
+          Type: sample.value.type
+        };
         break;
       case SampleType.Pressure:
         this.addPressure(sample.value);
+        break;
+      case SampleType.Event:
+        this.addEvent(sample.value.type, sample.value.value, sample.value.flags);
         break;
       default:
     }
@@ -177,9 +184,18 @@ export default class DiveSampleParser {
     this.aggregates.tanks[pressureValue.tank] = tankValue;
   }
 
-  private addNumerical(sampleType: NumericalSamplesTypes, value: number) {
+  private addNumerical(sampleType: NumericalSamplesTypes, value: number): void {
     const fieldName = DiveSampleParser.SampleTypeToFieldName(sampleType);
     this.workingSample[fieldName] = value;
+  }
+
+  private addEvent(type: SampleEventType, value: number, flags: number): void {
+    this.workingSample.Events = this.workingSample.Events ?? [];
+    this.workingSample.Events.push({
+      Type: type,
+      Value: value,
+      Flags: flags
+    })
   }
 
   public finalize(): void {

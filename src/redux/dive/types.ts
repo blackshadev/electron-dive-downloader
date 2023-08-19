@@ -26,8 +26,8 @@ export interface ISample {
   Heartbeat?: number;
   Gasmix?: number;
   Pressure?: { Pressure: number; Tank: number }[];
-  Deco?: { depth: number; time: number; type: number };
-  Events?: { type: SampleEventType; flags: number; value: number }[];
+  Deco?: { Depth: number; Time: number; Type: number };
+  Events?: { Type: SampleEventType; Flags: number; Value: number }[];
 }
 
 export interface Dive {
