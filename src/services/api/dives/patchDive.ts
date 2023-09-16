@@ -4,12 +4,12 @@ import { bearerToken } from '../../headers';
 import { serviceUrl } from '../config';
 import convertDive from './support/convertDive';
 
-export default async function addDive(
+export default async function patchDive(
   accessToken: string,
   computerId: number,
   dive: Dive
 ): Promise<void> {
-  await axios.post(`${serviceUrl}/dives`, convertDive(computerId, dive), {
+  await axios.patch(`${serviceUrl}/dives/upload-computer-data`, convertDive(computerId, dive), {
     headers: bearerToken(accessToken),
   });
 }

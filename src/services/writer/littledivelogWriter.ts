@@ -4,7 +4,7 @@ import Writer from './writer';
 import upsertComputer from '../api/computers/upsertComputer';
 import { IComputer } from '../../redux/computers';
 import { DeviceInfo } from '../../redux/divecomputer/reader';
-import addDive from '../api/dives/addDive';
+import { patchDive } from '../api/dives';
 
 export default class LittledivelogWriter implements Writer {
   private computer?: IComputer;
@@ -41,7 +41,7 @@ export default class LittledivelogWriter implements Writer {
       throw new Error('No computer set');
     }
 
-    await addDive(this.accessToken, this.computer.id, dive);
+    await patchDive(this.accessToken, this.computer.id, dive);
   }
 
   // eslint-disable-next-line class-methods-use-this
